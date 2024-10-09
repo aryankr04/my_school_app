@@ -1,0 +1,98 @@
+name: my_school_app
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+#--------------- PACKAGES ------------------#
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Utility Packages
+  win32: ^5.5.5
+  http: ^1.1.0
+  intl: ^0.18.1
+  logger: ^2.0.1
+  url_launcher: ^6.1.12
+  smooth_page_indicator: ^1.1.0
+  form_field_validator: ^1.1.0
+  flutter_lints: ^2.0.0
+  # Icons
+
+  # State Management
+  get: ^4.6.5
+  get_storage: ^2.1.1
+
+
+  # Product Specific
+  readmore: ^2.2.0
+  flutter_rating_bar: ^4.0.1
+  chips_choice: ^3.0.1
+
+  #Image Picker
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  firebase_database: ^10.3.8
+  firebase_storage: ^11.5.6
+  image_picker: ^1.0.5
+  table_calendar: ^3.0.9
+  easy_date_timeline: ^1.0.2
+  path_provider: ^2.0.14
+  file_picker: ^6.1.1
+  autocomplete_textfield: ^2.0.1
+  iconsax: ^0.0.8
+  shimmer: ^3.0.0
+  video_player: ^2.8.3
+  photo_view: ^0.14.0
+  flutter_svg: ^2.0.10+1
+  percent_indicator: ^4.2.3
+  expandable_datatable: ^0.0.7
+  wave: ^0.2.2
+  vibration: ^1.9.0
+  firebase_messaging: ^14.9.4
+  carousel_slider: ^5.0.0
+  #--------------- ./ PACKAGES END ------------------#
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.3
+
+
+flutter:
+  uses-material-design: true
+
+  #--------------- LOCAL ASSETS ------------------#
+  assets:
+    - assets/logos/
+    - assets/logos/csd.png
+    - assets/logos/routine.svg
+    - assets/images/banners/
+    - assets/images/illustration/
+
+
+
+  #--------------- LOCAL FONTS ------------------#
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 800
