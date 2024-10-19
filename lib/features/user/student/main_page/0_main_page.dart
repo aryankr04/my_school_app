@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_school_app/features/user/student/main_page/chat/chat_main_page.dart';
+import 'package:my_school_app/features/user/student/main_page/profile/profile.dart';
 import 'package:my_school_app/features/user/teacher/main_page/profile/my_profile.dart';
 
 import '../../../../utils/constants/dynamic_colors.dart';
@@ -20,8 +21,8 @@ class _StudentMainPageState extends State<StudentMainPage> {
     const StudentHome(),
     const ChatMainPage(),
     const Explore(),
-    Leaderboard(),
-    const MyProfile(),
+    MyProfile(),
+    const Profile(),
   ];
   int currentIndex = 0;
   void onTap(int index) {

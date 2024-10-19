@@ -66,21 +66,22 @@ Widget buildTextColumn(BuildContext context, String text1, String text2) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              text1,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: SchoolDynamicColors.placeholderColor,fontSize: 13),
-            ),
-            Text(
               text2,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
-                  ?.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                  ?.copyWith( fontSize:15,fontWeight: FontWeight.w600),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
+            Text(
+              text1,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall
+                  ?.copyWith(color:SchoolDynamicColors.subtitleTextColor,fontSize: 13),
+            ),
+
             // Divider(
             //   color: SchoolColors.grey,
             //   thickness: 0.5,

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:my_school_app/features/user/student/attendence/attendence.dart';
 import 'package:my_school_app/features/user/student/fees/fees.dart';
 import 'package:my_school_app/features/user/student/homework/homework.dart';
@@ -47,6 +49,7 @@ class _StudentHomeState extends State<StudentHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: SchoolDynamicColors.lightGrey,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -76,6 +79,167 @@ class _StudentHomeState extends State<StudentHome> {
                 SchoolCarouselSliderWithIndicator(images: imageUrls),
                 const SizedBox(height: SchoolSizes.defaultSpace),
                 RankOverview(),
+
+                Text(
+                  'Attendance',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: SchoolSizes.sm,),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(SchoolSizes.md - 4),
+                    decoration: BoxDecoration(
+                      color: SchoolDynamicColors.activeGreenTint,
+                      borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusMd),
+                    ),
+                    child: Column(
+                      children: [
+                        CircularPercentIndicator(
+                          radius: 36,
+                          animateFromLastPercent: true,
+                          progressColor: SchoolDynamicColors.activeGreen,
+                          backgroundColor: SchoolDynamicColors.activeGreen.withOpacity(0.1),
+                          animation: true,
+                          circularStrokeCap: CircularStrokeCap.round,
+                          lineWidth: 6,
+                          percent: present / 100,
+                          center: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.white,
+                            child: Text(
+                              '${present.toStringAsFixed(1)}%',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: SchoolDynamicColors.headlineTextColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: SchoolSizes.md - 4),
+                        Text(
+                          'Total Presents',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: SchoolDynamicColors.subtitleTextColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          '22 Days',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: SchoolDynamicColors.headlineTextColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        SizedBox(height: SchoolSizes.md),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: SchoolDynamicColors.activeGreen,
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: Text(
+                                  'View Report',
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: SchoolDynamicColors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: SchoolSizes.lg),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(SchoolSizes.md - 4),
+                    decoration: BoxDecoration(
+
+                      color: SchoolDynamicColors.activeRedTint,
+                      borderRadius: BorderRadius.circular(SchoolSizes.md),
+                    ),
+                    child: Column(
+                      children: [
+                        CircularPercentIndicator(
+                          radius: 36,
+                          animateFromLastPercent: true,
+                          progressColor: SchoolDynamicColors.activeRed,
+                          backgroundColor: SchoolDynamicColors.activeRed.withOpacity(0.1),
+                          animation: true,
+                          circularStrokeCap: CircularStrokeCap.round,
+                          lineWidth: 6,
+                          percent: absent / 100,
+                          center: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.white,
+                            child: Text(
+                              '${absent.toStringAsFixed(1)}%',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: SchoolDynamicColors.headlineTextColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Total Absents',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: SchoolDynamicColors.subtitleTextColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          '4 Days',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: SchoolDynamicColors.headlineTextColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        SizedBox(height: SchoolSizes.md),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: SchoolDynamicColors.activeRed,
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: Text(
+                                  'View Report',
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: SchoolDynamicColors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+                SizedBox(height: SchoolSizes.lg,),
                 AttendanceOverview(),
                 FeeDetails(),
                 School(),
@@ -130,13 +294,17 @@ class _StudentHomeState extends State<StudentHome> {
                     alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       'Fee Details',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
                   Text(
                     'View',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: SchoolDynamicColors.subtitleTextColor, fontSize: 13),
+                        color: SchoolDynamicColors.subtitleTextColor,
+                        fontSize: 13),
                   ),
                 ],
               ),
@@ -215,13 +383,17 @@ class _StudentHomeState extends State<StudentHome> {
                     alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       'Attendance',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
                   Text(
                     'View',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: SchoolDynamicColors.subtitleTextColor, fontSize: 13),
+                        color: SchoolDynamicColors.activeBlue,
+                        fontSize: 13),
                   ),
                 ],
               ),
@@ -258,7 +430,10 @@ class _StudentHomeState extends State<StudentHome> {
                         children: [
                           Text(
                             'Presents',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 15),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontSize: 15),
                           ),
                           Text(
                             '23 Days',
@@ -266,8 +441,7 @@ class _StudentHomeState extends State<StudentHome> {
                                 .textTheme
                                 .bodyLarge
                                 ?.copyWith(
-                                    color:
-                                        SchoolDynamicColors.activeGreen),
+                                    color: SchoolDynamicColors.activeGreen),
                           ),
                         ],
                       ),
@@ -302,7 +476,10 @@ class _StudentHomeState extends State<StudentHome> {
                         children: [
                           Text(
                             'Absents',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 15),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontSize: 15),
                           ),
                           Text(
                             '3 Days',
@@ -310,8 +487,7 @@ class _StudentHomeState extends State<StudentHome> {
                                 .textTheme
                                 .bodyLarge
                                 ?.copyWith(
-                                    color:
-                                        SchoolDynamicColors.activeRed),
+                                    color: SchoolDynamicColors.activeRed),
                           ),
                         ],
                       ),
@@ -357,13 +533,17 @@ class _StudentHomeState extends State<StudentHome> {
                     alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       'Leaderboard',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
                   Text(
                     'View',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: SchoolDynamicColors.subtitleTextColor, fontSize: 13),
+                        color: SchoolDynamicColors.subtitleTextColor,
+                        fontSize: 13),
                   ),
                 ],
               ),
@@ -394,17 +574,21 @@ class _StudentHomeState extends State<StudentHome> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
                           Text(
                             'All India Rank',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 15),
-                          ),
-                          Text(
-                            '35412',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
                                 ?.copyWith(
-                                    color: SchoolDynamicColors.activeBlue),
+                                    ),
+                          ),
+                          Text(
+                            '# 348956',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontSize: 16,color: SchoolDynamicColors.activeBlue),
                           ),
                         ],
                       ),
@@ -433,7 +617,10 @@ class _StudentHomeState extends State<StudentHome> {
                         children: [
                           Text(
                             'School Rank',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 15),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontSize: 15),
                           ),
                           Text(
                             '2353',
@@ -477,7 +664,10 @@ class _StudentHomeState extends State<StudentHome> {
                         children: [
                           Text(
                             'Class Rank',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 15),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontSize: 15),
                           ),
                           Text(
                             '2353',
@@ -514,7 +704,10 @@ class _StudentHomeState extends State<StudentHome> {
                         children: [
                           Text(
                             'Total Points',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 15),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontSize: 15),
                           ),
                           Text(
                             '18540',
