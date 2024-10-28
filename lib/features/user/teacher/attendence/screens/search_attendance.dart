@@ -45,7 +45,7 @@ class SearchAttendance extends StatelessWidget {
               SchoolDropdownFormField(
                 items: SchoolLists.classList,
                 labelText: 'Class',
-                validator: RequiredValidator(errorText: 'Select Class'),
+                isValidate: true,
                 //selectedValue: controller.selectedClassController.value,
                 onSelected: (value) {
                   //controller.selectedClassController.value = value!;
@@ -55,7 +55,7 @@ class SearchAttendance extends StatelessWidget {
               SchoolDropdownFormField(
                 items: SchoolLists.classList,
                 labelText: 'Section',
-                validator: RequiredValidator(errorText: 'Select Section'),
+                isValidate:true,
                 //selectedValue: controller.selectedClassController.value,
                 onSelected: (value) {
                   //controller.selectedClassController.value = value!;

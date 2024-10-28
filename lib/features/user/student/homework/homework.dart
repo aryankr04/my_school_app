@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_school_app/utils/constants/dynamic_colors.dart';
@@ -70,91 +71,142 @@ class _HomeworkState extends State<Homework> {
           icon: const Icon(Icons.arrow_back_rounded),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: SchoolSizes.lg,
-            ),
-            WeekCalendar(
-              onDateChange: (selectedDate) {
-                homeworkController.fetchHomeworkStream(selectedDate);
-                homeworkController.selectedDate.value =
-                    DateFormat('dd MMM yyyy').format(selectedDate);
-                ;
-              },
-            ),
-            const SizedBox(
-              height: SchoolSizes.spaceBtwSections,
-            ),
-            StreamBuilder<List<Map<String, dynamic>>>(
-              stream: homeworkController.homeworkStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
-
-                final List<Map<String, dynamic>> homeworkData =
-                    snapshot.data ?? [];
-                return Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: SchoolSizes.lg),
-                  padding: const EdgeInsets.all(SchoolSizes.md),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                    color: SchoolDynamicColors.backgroundColorWhiteDarkGrey,
-                    border:
-                        Border.all(width: 0.5, color: SchoolDynamicColors.borderColor),
-                    borderRadius:
-                        BorderRadius.circular(SchoolSizes.cardRadiusSm),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Homework",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: SchoolDynamicColors.activeBlue)),
-                      Text(
-                          homeworkController.selectedDate.value ==
-                                  DateFormat('dd MMM yyyy')
-                                      .format(DateTime.now())
-                              ? "Today's Homework"
-                              : 'Date: ${homeworkController.selectedDate.value}',
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      if (homeworkData.isNotEmpty)
-                        Column(
-                          children: homeworkData.map((homework) {
-                            return HomeworkCard(
-                              subject: homework['subject'] ?? '',
-                              homework: homework['homeworkText'] ?? '',
-                              assignBy: homework['teacherId'] ?? '',
-                            );
-                          }).toList(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.all(SchoolSizes.lg),
+                padding: EdgeInsets.symmetric(
+                    vertical: SchoolSizes.sm, horizontal: SchoolSizes.md),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                        SchoolSizes.cardRadiusSm),
+                    // gradient: LinearGradient(
+                    //   colors: [Color(0xff1191FD), Color(0xff5E59F2)],
+                    // ),
+                    color: SchoolDynamicColors.activeBlue.withOpacity(0.1)),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Track Your Homework',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall),
+                              Text(
+                                'View all your assignments in one place. Stay organized, stay prepared!',
+                                maxLines: 3,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(
+                                        color: SchoolDynamicColors
+                                            .subtitleTextColor),
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
+                        ),
+                        SvgPicture.asset(
+                          'assets/images/illustration/home_illust.svg',
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.fill,
                         )
-                      else
-                        Container(
-                            margin: EdgeInsets.symmetric(vertical: 24),
-                            child:
-                                Center(child: Text('No homework for today'))),
-                    ],
-                  ),
-                );
-              },
-            )
-          ],
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+
+              WeekCalendar(
+                onDateChange: (selectedDate) {
+                  homeworkController.fetchHomeworkStream(selectedDate);
+                  homeworkController.selectedDate.value =
+                      DateFormat('dd MMM yyyy').format(selectedDate);
+                  ;
+                },
+              ),
+              const SizedBox(
+                height: SchoolSizes.spaceBtwSections,
+              ),
+              // StreamBuilder<List<Map<String, dynamic>>>(
+              //   stream: homeworkController.homeworkStream,
+              //   builder: (context, snapshot) {
+              //     if (snapshot.hasError) {
+              //       return Text('Error: ${snapshot.error}');
+              //     }
+              //
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return CircularProgressIndicator();
+              //     }
+              //
+              //     final List<Map<String, dynamic>> homeworkData =
+              //         snapshot.data ?? [];
+              //     return Container(
+              //       margin:
+              //           const EdgeInsets.symmetric(horizontal: SchoolSizes.lg),
+              //       padding: const EdgeInsets.all(SchoolSizes.md),
+              //       decoration: BoxDecoration(
+              //         boxShadow: [
+              //           BoxShadow(
+              //             color: Colors.black.withOpacity(0.1),
+              //             spreadRadius: 1,
+              //             blurRadius: 3,
+              //             offset: const Offset(0, 3),
+              //           ),
+              //         ],
+              //         color: SchoolDynamicColors.backgroundColorWhiteDarkGrey,
+              //         border: Border.all(
+              //             width: 0.5, color: SchoolDynamicColors.borderColor),
+              //         borderRadius:
+              //             BorderRadius.circular(SchoolSizes.cardRadiusSm),
+              //       ),
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Text("Homework",
+              //               style: Theme.of(context)
+              //                   .textTheme
+              //                   .headlineSmall
+              //                   ?.copyWith(
+              //                       color: SchoolDynamicColors.activeBlue)),
+              //           Text(
+              //               homeworkController.selectedDate.value ==
+              //                       DateFormat('dd MMM yyyy')
+              //                           .format(DateTime.now())
+              //                   ? "Today's Homework"
+              //                   : 'Date: ${homeworkController.selectedDate.value}',
+              //               style: Theme.of(context).textTheme.bodyLarge),
+              //           if (homeworkData.isNotEmpty)
+              //             Column(
+              //               children: homeworkData.map((homework) {
+              //                 return HomeworkCard(
+              //                   subject: homework['subject'] ?? '',
+              //                   homework: homework['homeworkText'] ?? '',
+              //                   assignBy: homework['teacherId'] ?? '',
+              //                 );
+              //               }).toList(),
+              //             )
+              //           else
+              //             Container(
+              //                 margin: EdgeInsets.symmetric(vertical: 24),
+              //                 child:
+              //                     Center(child: Text('No homework for today'))),
+              //         ],
+              //       ),
+              //     );
+              //   },
+              // )
+            ],
+          ),
         ),
       ),
     );
@@ -222,10 +274,8 @@ class HomeworkCard extends StatelessWidget {
                     ),
                     Text(
                       subject,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: SchoolDynamicColors.subtitleTextColor),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: SchoolDynamicColors.subtitleTextColor),
                       maxLines: 5,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -294,7 +344,8 @@ class WeekCalendar extends StatelessWidget {
         inactiveDayStyle: DayStyle(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
-            border: Border.all(color: SchoolDynamicColors.darkGrey, width: 0.25),
+            border:
+                Border.all(color: SchoolDynamicColors.darkGrey, width: 0.25),
           ),
           dayNumStyle: const TextStyle(
             color: SchoolDynamicColors.darkGrey,

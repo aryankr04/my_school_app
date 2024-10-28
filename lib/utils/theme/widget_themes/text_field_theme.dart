@@ -10,7 +10,7 @@ class SchoolTextFormFieldTheme {
     errorMaxLines: 3,
     prefixIconColor: SchoolColors.iconColor,
     suffixIconColor: SchoolColors.iconColor,
-    contentPadding: const EdgeInsets.symmetric(vertical: 16,horizontal: 16),
+    contentPadding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
     labelStyle: const TextStyle().copyWith(fontSize: SchoolSizes.fontSizeMd, color: SchoolColors.placeholderColor,),
     hintStyle: const TextStyle().copyWith(fontSize: SchoolSizes.fontSizeMd, fontWeight: FontWeight.w400, color: SchoolColors.placeholderColor),
 

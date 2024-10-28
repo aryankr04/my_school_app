@@ -7,10 +7,10 @@ import 'package:my_school_app/utils/constants/sizes.dart';
 
 import '../../controllers/student/add_student_step3_controller.dart';
 
-class Step3Form extends StatelessWidget {
-  final Step3FormController controller;
+class StudentStep3Form extends StatelessWidget {
+  final StudentStep3FormController controller;
 
-  Step3Form({Key? key, required this.controller}) : super(key: key);
+  StudentStep3Form({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,11 @@ class Step3Form extends StatelessWidget {
             children: <Widget>[
               SchoolTextFormField(
                 labelText: 'Mobile No.',
-                prefixIcon: Icons.phone_android,
+                suffixIcon: Icons.phone_android,
                 keyboardType: TextInputType.phone,
                 controller: controller.mobileNoController,
                 validator:MultiValidator([
-                  RequiredValidator(errorText: 'Enter your email address'),
+                  RequiredValidator(errorText: ''),
                   LengthRangeValidator(min: 10,max: 10,
                       errorText: 'Enter valid mobile no.'),
                 ]) ,
@@ -35,12 +35,13 @@ class Step3Form extends StatelessWidget {
               const SizedBox(
                 height: SchoolSizes.defaultSpace,
               ),
+
               SchoolTextFormField(
                 labelText: 'Email Address',
                 keyboardType: TextInputType.emailAddress,
                 controller: controller.emailAddressController,
                 validator: MultiValidator([
-                 RequiredValidator(errorText: 'Enter your email address'),
+                 RequiredValidator(errorText: ''),
                   EmailValidator(
                        errorText: 'Enter valid email address'),
                 ]),
@@ -52,7 +53,7 @@ class Step3Form extends StatelessWidget {
                 labelText: 'Aadhaar No.',
                 keyboardType: TextInputType.number,
                 validator: MultiValidator([
-                  RequiredValidator(errorText: 'Enter your Aadhaar No.'),
+                  RequiredValidator(errorText: ''),
                   LengthRangeValidator(
                       max: 12, min: 12, errorText: 'Enter valid Aadhaar No.'),
                 ]),
@@ -63,18 +64,27 @@ class Step3Form extends StatelessWidget {
               ),
               SchoolTextFormField(
                 labelText: 'House Address',
-                validator: RequiredValidator(errorText: 'Enter House Address'),
+                validator: RequiredValidator(errorText: ''),
+                controller: controller.houseAddressController,
+              ),
+              const SizedBox(
+                height: SchoolSizes.defaultSpace,
+              ),
+              SchoolTextFormField(
+                labelText: 'Pin Code',
+                validator: RequiredValidator(errorText: ''),
                 controller: controller.houseAddressController,
               ),
               const SizedBox(
                 height: SchoolSizes.defaultSpace,
               ),
               SchoolDropdownFormField(
-                labelText: 'State',
-                items: SchoolLists.subjectList,
-                selectedValue: controller.state.value,
+                labelText: 'State/Union Territories',
+                items: SchoolLists.indianStatesAndUTs,
+                selectedValue: controller.selectedState.value,
+                isValidate: true,
                 onSelected: (value) {
-                  controller.state.value = value!;
+                  controller.selectedState.value = value!;
                 },
               ),
               const SizedBox(
@@ -82,10 +92,11 @@ class Step3Form extends StatelessWidget {
               ),
               SchoolDropdownFormField(
                 labelText: 'District',
-                items: SchoolLists.subjectList,
-                selectedValue: controller.district.value,
+                items: SchoolLists.indianStatesAndUTs,
+                isValidate: true,
+                selectedValue: controller.selectedDistrict.value,
                 onSelected: (value) {
-                  controller.district.value = value!;
+                  controller.selectedDistrict.value = value!;
                 },
               ),
               const SizedBox(
@@ -93,15 +104,13 @@ class Step3Form extends StatelessWidget {
               ),
               SchoolDropdownFormField(
                 labelText: 'City',
-                items: SchoolLists.subjectList,
-                selectedValue: controller.city.value,
+                items: SchoolLists.indianStatesAndUTs,
+                selectedValue: controller.selectedCity.value,
                 onSelected: (value) {
-                  controller.city.value = value!;
+                  controller.selectedCity.value = value!;
                 },
               ),
-              const SizedBox(
-                height: SchoolSizes.spaceBtwSections,
-              ),
+
             ],
           ),
         ),

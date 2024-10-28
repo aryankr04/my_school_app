@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:my_school_app/features/on_boarding/on_boarding_screen.dart';
+import 'package:my_school_app/features/splash_screen.dart';
 import 'package:my_school_app/features/user/teacher/result/my_result.dart';
 import 'package:my_school_app/utils/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,6 +36,6 @@ class SchoolApp extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme,
-        home: Login());
+        home: OnboardingScreen());
   }
 }

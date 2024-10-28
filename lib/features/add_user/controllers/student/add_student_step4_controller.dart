@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Step4FormController extends GetxController {
+class StudentStep4FormController extends GetxController {
   final step4FormKey = GlobalKey<FormState>();
 
-  RxString transportation = RxString('');
-  RxString vehicleNo = RxString('');
-  RxString subject = RxString('');
-  RxString teacher = RxString('');
-  RxString sports = RxString('');
-  RxString activities = RxString('');
+  TextEditingController fatherNameController = TextEditingController();
+  TextEditingController fatherMobileNoController = TextEditingController();
+  TextEditingController fatherOccupationController = TextEditingController();
+
+  TextEditingController motherNameController = TextEditingController();
+  TextEditingController motherMobileNoController = TextEditingController();
+  TextEditingController motherOccupationController = TextEditingController();
+
+  TextEditingController guardianNameController = TextEditingController();
+  TextEditingController guardianMobileNoController = TextEditingController();
+  TextEditingController relationshipToGuardianController = TextEditingController();
 
   @override
   void onClose() {
     super.onClose();
+    fatherNameController.dispose();
+    motherNameController.dispose();
   }
 
   @override

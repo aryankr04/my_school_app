@@ -117,7 +117,7 @@ class _AssignHomeworkState extends State<AssignHomework> {
                     child: SchoolDropdownFormField(
                       items: SchoolLists.classList,
                       labelText: 'Class',
-                      validator: RequiredValidator(errorText: 'Select Class'),
+                      isValidate: true,
                       selectedValue: controller.selectedClass.value,
                       onSelected: (value) {
                         controller.selectedClass.value = value;
@@ -129,7 +129,7 @@ class _AssignHomeworkState extends State<AssignHomework> {
                     child: SchoolDropdownFormField(
                       items: SchoolLists.sectionList,
                       labelText: 'Section',
-                      validator: RequiredValidator(errorText: 'Select Section'),
+                      isValidate: true,
                       selectedValue: controller.selectedClass.value,
                       onSelected: (value) {
                         controller.selectedSection.value = value;
@@ -142,7 +142,7 @@ class _AssignHomeworkState extends State<AssignHomework> {
               SchoolDropdownFormField(
                 items: SchoolLists.subjectList,
                 labelText: 'Subject',
-                validator: RequiredValidator(errorText: 'Select Section'),
+                isValidate: true,
                 selectedValue: controller.selectedSubject.value,
                 onSelected: (value) {
                   controller.selectedSubject.value = value;

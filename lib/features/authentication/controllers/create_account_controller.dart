@@ -7,8 +7,8 @@ import 'package:my_school_app/features/add_user/screens/add_staff.dart';
 import '../../add_user/screens/add_director.dart';
 import '../../add_user/screens/add_management.dart';
 import '../../add_user/screens/add_principal.dart';
-import '../../add_user/screens/add_teacher.dart';
 import '../../add_user/screens/student/student0.dart';
+import '../../add_user/screens/student/teacher/teacher0.dart';
 
 class CreateAccountController extends GetxController {
   void onUserTypeSelected(String userType) {

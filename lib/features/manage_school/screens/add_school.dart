@@ -122,9 +122,7 @@ class AddSchool extends StatelessWidget {
                     controller.selectedSchoolingSystem.value = val;
                   },
                   selectedValue: controller.selectedSchoolingSystem.value,
-                  validator: RequiredValidator(
-                    errorText: 'Select Schooling System',
-                  ),
+                  isValidate: true,
                 ),
                 const SizedBox(
                   height: SchoolSizes.defaultSpace,
@@ -136,9 +134,7 @@ class AddSchool extends StatelessWidget {
                     controller.selectedSchoolBoard.value = val;
                   },
                   selectedValue: controller.selectedSchoolBoard.value,
-                  validator: RequiredValidator(
-                    errorText: 'Select School Board',
-                  ),
+                  isValidate: true,
                 ),
                 const SizedBox(
                   height: SchoolSizes.defaultSpace,
@@ -150,9 +146,7 @@ class AddSchool extends StatelessWidget {
                     controller.selectedSchoolType.value = val;
                   },
                   selectedValue: controller.selectedSchoolType.value,
-                  validator: RequiredValidator(
-                    errorText: 'Select School Type',
-                  ),
+                  isValidate: true,
                 ),
                 const SizedBox(
                   height: SchoolSizes.defaultSpace,

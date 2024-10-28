@@ -59,9 +59,9 @@ class _DatePickerFieldState extends State<DatePickerField> {
   @override
   Widget build(BuildContext context) {
     return SchoolTextFormField(
-      validator: RequiredValidator(errorText: widget.labelText),
+      validator: RequiredValidator(errorText: ''),
       labelText: widget.labelText,
-      prefixIcon: Icons.calendar_month,
+      suffixIcon: Icons.calendar_month,
       controller: _dateController,
       readOnly: true,
       onTap: () => _selectDate(context),

@@ -216,7 +216,7 @@ class AddStudentRoutineController extends GetxController {
                 items: SchoolLists.eventType,
                 labelText: 'Event Type',
                 prefixIcon: Icons.class_,
-                validator: RequiredValidator(errorText: 'Select Event Type'),
+                isValidate: true,
                 onSelected: (val) {
                   selectedEventType.value = val;
                   subjectController.clear();

@@ -104,7 +104,8 @@ class _AddDirectorState extends State<AddDirector> {
                           color: SchoolDynamicColors.iconColor,
                         ),
                         filled: true,
-                        fillColor: SchoolDynamicColors.backgroundColorTintLightGrey,
+                        fillColor:
+                            SchoolDynamicColors.backgroundColorTintLightGrey,
                         suffixIcon: IconButton(
                           color: SchoolDynamicColors.iconColor,
                           icon: Icon(Icons.cancel_outlined),
@@ -159,8 +160,7 @@ class _AddDirectorState extends State<AddDirector> {
                     items: SchoolLists.genderList,
                     labelText: 'Gender',
                     prefixIcon: Icons.transgender,
-                    validator:
-                        RequiredValidator(errorText: 'Select your Gender'),
+                    isValidate: true,
                     onSelected: (val) {
                       controller.selectedGender.value = val;
                     },

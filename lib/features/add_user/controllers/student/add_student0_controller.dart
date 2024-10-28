@@ -4,71 +4,71 @@ import 'package:get/get.dart';
 
 import '../../../../../../data/services/firebase_for_school.dart';
 import '../../../../../../utils/helpers/firebase_helper_function.dart';
-import '../../../../../../utils/helpers/helper_functions.dart';
+import '../../../../utils/helpers/helper_functions.dart';
 import '../../models/student.dart';
 import 'add_student_step1_controller.dart';
-import 'add_student_step2_controller.dart';
+import 'add_student_step5_controller.dart';
 import 'add_student_step3_controller.dart';
 import 'add_student_step4_controller.dart';
-import 'add_student_step5_controller.dart';
+import 'add_student_step2_controller.dart';
+import 'add_student_step6_controller.dart';
+import 'add_student_step7_controller.dart';
+import 'add_student_step8_controller.dart';
+
+final List<String> stepNames = [
+  'Introduction to Student Registration',
+  'Basic Information',
+  'Academic Information',
+  'Contact Information',
+  'Parental/Guardian Information',
+  'Physical and Health Information',
+  'Favorites and Personal Interests',
+  'Document Uploads',
+  'Authentication'
+];
 
 class AddStudent0Controller extends GetxController {
-  FirebaseForSchool firebaseFunction = FirebaseForSchool();
-
-  // Add controllers for each step
-  final Step1FormController step1Controller = Step1FormController();
-  final Step2FormController step2Controller = Step2FormController();
-  final Step3FormController step3Controller = Step3FormController();
-  final Step4FormController step4Controller = Step4FormController();
-  final Step5FormController step5Controller = Step5FormController();
+  final FirebaseForSchool firebaseFunction = FirebaseForSchool();
+  final StudentStep1FormController step1Controller = StudentStep1FormController();
+  final StudentStep2FormController step2Controller = StudentStep2FormController();
+  final StudentStep3FormController step3Controller = StudentStep3FormController();
+  final StudentStep4FormController step4Controller = StudentStep4FormController();
+  final StudentStep5FormController step5Controller = StudentStep5FormController();
+  final StudentStep6FormController step6Controller = StudentStep6FormController();
+  final StudentStep7FormController step7Controller = StudentStep7FormController();
+  final StudentStep8FormController step8Controller = StudentStep8FormController();
 
   RxInt activeStep = 0.obs;
-  late final PageController pageController;
+  late final PageController pageController =
+      PageController(initialPage: activeStep.value);
 
-  @override
-  void onInit() {
-    super.onInit();
-    pageController = PageController(initialPage: activeStep.value);
-  }
+  String getStepName() => stepNames[activeStep.value] ?? 'Unknown Step';
 
-  void incrementStep() {
-    print('Incrementing step');
-
-    if (activeStep.value < 4) {
-      bool isValid = false;
-
-      switch (activeStep.value) {
-        case 0:
-          isValid = step1Controller.isFormValid();
-          break;
-        case 1:
-          isValid = step2Controller.isFormValid();
-          break;
-        case 2:
-          isValid = step3Controller.isFormValid();
-          break;
-        case 3:
-          isValid = step4Controller.isFormValid();
-          break;
-        default:
-          return;
-      }
+  void incrementStep() async {
+    if (activeStep.value < stepNames.length - 1) {
+      bool isValid = [
+        true,
+        step1Controller.isFormValid(),
+        step2Controller.isFormValid(),
+        step3Controller.isFormValid(),
+        step4Controller.isFormValid(),
+        step5Controller.isFormValid(),
+        step6Controller.isFormValid(),
+        step7Controller.isFormValid(),
+      ][activeStep.value];
 
       if (isValid) {
         activeStep.value++;
         pageController.jumpToPage(activeStep.value);
       } else {
-        // Form is not valid, handle accordingly (show an error message, etc.)
         print('Form is not valid for step $activeStep');
       }
     } else {
-      print('Already at the last step.');
-      addStudentToFirebase();
+      await addStudentToFirebase();
     }
   }
 
   void decrementStep() {
-    print('Decrementing step');
     if (activeStep.value > 0) {
       activeStep.value--;
       pageController.jumpToPage(activeStep.value);
@@ -77,99 +77,141 @@ class AddStudent0Controller extends GetxController {
 
   Future<void> addStudentToFirebase() async {
     try {
-      print('Sending data to Firebase...');
-
       SchoolHelperFunctions.showLoadingOverlay();
-
-
-
-      // Retrieve data from each step controller
-      String selectedSchool = step1Controller.selectedSchoolController.text;
-
-      if (selectedSchool == null) {
-        return;
-      }
+      String? selectedSchool = step2Controller.selectedSchoolController.text;
+      if (selectedSchool == null) return;
 
       String? studentId =
           await firebaseFunction.generateNewIdWithPrefix('STU', 'students');
+      if (studentId == null) return;
 
-      // Upload image to Firebase Storage
-      String imageUrl = await FirebaseHelperFunction.uploadImage(
-        imageFile: step1Controller.image.value!,
-        imageName: studentId!,
+      final profileImageUrl = await FirebaseHelperFunction.uploadImage(
+        imageFile: step7Controller.profileImage.value!,
+        imageName: studentId,
         folder: 'student_profile_images',
       );
 
-      Student student = Student(
-        uid: studentId,
-        schoolId: selectedSchool,
-        studentName: step1Controller.studentNameController.text,
-        className: step1Controller.selectedClassController.toString(),
-        sectionName: step1Controller.selectedSectionController.toString(),
-        rollNo: step1Controller.rollNoController.text,
-        dob: step1Controller.dateOfBirth.value.toString(),
-        fatherName: step1Controller.fatherNameController.text,
-        motherName: step1Controller.motherNameController.text,
-        heightFt: step2Controller.heightFt.value,
-        heightInch: step2Controller.heightInch.value,
-        weight: step2Controller.weightController.text,
-        religion: step2Controller.religion.value,
-        category: step2Controller.caste.value,
-        gender: step2Controller.gender.value,
-        bloodGroup: step2Controller.bloodGroup.value,
-        mobileNo: step3Controller.mobileNoController.text,
-        email: step3Controller.emailAddressController.text,
-        aadhaarNo: step3Controller.aadhaarNoController.text,
-        address: step3Controller.houseAddressController.text,
-        state: step3Controller.state.value,
-        district: step3Controller.district.value,
-        city: step3Controller.city.value,
-        pincode: '',
-        transportation: step4Controller.transportation.value,
-        vehicleNo: step4Controller.vehicleNo.value,
-        favSubject: step4Controller.subject.value,
-        favTeacher: step4Controller.teacher.value,
-        favSports: step4Controller.sports.value,
-        otherActivities: step4Controller.activities.value,
-        username: step5Controller.usernameController.text,
-        password: step5Controller.passwordController.text,
+      final birthCertificateImageUrl = await FirebaseHelperFunction.uploadImage(
+        imageFile: step7Controller.birthCertificateImage.value!,
+        imageName: studentId,
+        folder: 'student_birth_certificate_images',
       );
 
-      // Convert the Student instance to a JSON map
-      Map<String, dynamic> studentData = student.toJson();
+      final transferCertificateImageUrl =
+          await FirebaseHelperFunction.uploadImage(
+        imageFile: step7Controller.transferCertificateImage.value!,
+        imageName: studentId,
+        folder: 'student_transfer_certificate_images',
+      );
+
+      final aadhaarCardImageUrl = await FirebaseHelperFunction.uploadImage(
+        imageFile: step7Controller.aadhaarCardImage.value!,
+        imageName: studentId,
+        folder: 'student_aadhaar_card_images',
+      );
+
+      final student = Student(
+        uid: studentId,
+        role: 'student',
+        schoolId: selectedSchool,
+        studentName:
+            '${step1Controller.firstNameController.text.trim()} ${step1Controller.lastNameController.text.trim()}',
+        firstName: step1Controller.firstNameController.text.trim(),
+        lastName: step1Controller.lastNameController.text.trim(),
+        admissionDate: step2Controller.admissionDate.value.toString().trim(),
+        admissionNo: '',
+        className: step2Controller.selectedClass.toString().trim(),
+        sectionName: step2Controller.selectedSection.toString().trim(),
+        rollNo: step2Controller.rollNoController.text.trim(),
+        dob: step1Controller.dateOfBirth.value.toString().trim(),
+        fatherName: step4Controller.fatherNameController.text.trim(),
+        fatherMobileNo: step4Controller.fatherMobileNoController.text.trim(),
+        fatherOccupation:
+            step4Controller.fatherOccupationController.text.trim(),
+        motherName: step4Controller.motherNameController.text.trim(),
+        motherMobileNo: step4Controller.motherMobileNoController.text.trim(),
+        motherOccupation:
+            step4Controller.motherOccupationController.text.trim(),
+        nationality: step1Controller.selectedNationality.value.trim(),
+        heightFt: step5Controller.selectedHeightFt.value.trim(),
+        heightInch: step5Controller.selectedHeightInch.value.trim(),
+        weight: step5Controller.weightController.text.trim(),
+        visionCondition: step5Controller.selectedVisionCondition.value.trim(),
+        medicalCondition: step5Controller.selectedMedicalCondition.value.trim(),
+        isPhysicalDisability:
+            step5Controller.isPhysicalDisability.value.trim() == 'Yes',
+        religion: step1Controller.selectedReligion.value.trim(),
+        category: step1Controller.selectedCategory.value.trim(),
+        gender: step1Controller.selectedGender.value.trim(),
+        bloodGroup: step5Controller.selectedBloodGroup.value.trim(),
+        mobileNo: step3Controller.mobileNoController.text.trim(),
+        email: step3Controller.emailAddressController.text.trim(),
+        aadhaarNo: step3Controller.aadhaarNoController.text.trim(),
+        address: step3Controller.houseAddressController.text.trim(),
+        state: step3Controller.selectedState.value.trim(),
+        district: step3Controller.selectedDistrict.value.trim(),
+        city: step3Controller.selectedCity.value.trim(),
+        pincode: step3Controller.pinCodeController.value.toString().trim(),
+        isTransportRequired:
+            step2Controller.isTransportRequired.value.trim() == 'Yes',
+        modeOfTransportation:
+            step2Controller.selectedModeOfTransport.value.trim(),
+        vehicleNo: step2Controller.selectedVehicleNo.value.trim(),
+        houseOrTeam: step2Controller.selectedHouseOrTeam.value.trim(),
+        favSubject: step6Controller.selectedFavoriteSubject.value.trim(),
+        favTeacher: step6Controller.selectedFavoriteTeacher.value.trim(),
+        favSports: step6Controller.selectedFavoriteSport.value.trim(),
+        favFood: step6Controller.favoriteFoodController.value.toString().trim(),
+        hobbies: step6Controller.selectedHobbies.value,
+        goal: step6Controller.goalController.text.trim(),
+        username: step8Controller.usernameController.text.trim(),
+        password: step8Controller.passwordController.text.trim(),
+        profileImageUrl: profileImageUrl,
+        birthCertificateImageUrl: birthCertificateImageUrl,
+        transferCertificateImageUrl: transferCertificateImageUrl,
+        aadhaarCardImageUrl: aadhaarCardImageUrl,
+        isActive: true,
+        accountStatus: 'active',
+        lastLogin: DateTime.now(),
+        createdAt: DateTime.now(),
+        followers: [],
+        following: [],
+        noOfPosts: 0,
+        totalPoints: 0,
+        classRank: 0,
+        schoolRank: 0,
+        allIndiaRank: 0,
+        totalPresent: 0,
+        totalAbsent: 0,
+        totalDueFee: 0,
+      );
+
       await FirebaseFirestore.instance
           .collection('students')
           .doc(studentId)
-          .set(studentData);
-
-      SchoolHelperFunctions.showSuccessSnackBar(
-        'Student added successfully!',
-      );
+          .set(student.toJson());
+      SchoolHelperFunctions.showSuccessSnackBar('Student added successfully!');
     } catch (e) {
       print('Error adding student: $e');
       SchoolHelperFunctions.showErrorSnackBar(
-        'Error adding student. Please try again.',
-      );
+          'Error adding student. Please try again.');
     } finally {
-      // Any final cleanup or actions can be added here
       Get.back();
     }
   }
 
   @override
   void onClose() {
-    // Close all controllers when the widget is disposed
     step1Controller.onClose();
     step2Controller.onClose();
     step3Controller.onClose();
     step4Controller.onClose();
     step5Controller.onClose();
+    step6Controller.onClose();
+    step7Controller.onClose();
+    step8Controller.onClose();
     super.onClose();
   }
-  double ftToCm(int ft,double inch){
-    double cm=((ft*12)+inch)*2.54;
-    return cm;
-  }
 
-
+  double ftToCm(int ft, double inch) => ((ft * 12) + inch) * 2.54;
 }

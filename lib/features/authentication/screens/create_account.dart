@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:my_school_app/features/add_user/screens/add_director.dart';
+import 'package:my_school_app/features/add_user/screens/add_driver.dart';
+import 'package:my_school_app/features/add_user/screens/add_management.dart';
+import 'package:my_school_app/features/add_user/screens/add_principal.dart';
+import 'package:my_school_app/features/add_user/screens/add_staff.dart';
+import 'package:my_school_app/features/add_user/screens/student/student0.dart';
+import 'package:my_school_app/features/user/admin/admin_main_page.dart';
 
 import 'package:my_school_app/utils/constants/dynamic_colors.dart';
 import 'package:my_school_app/utils/constants/sizes.dart';
+import '../../add_user/screens/student/teacher/teacher0.dart';
 import '../controllers/create_account_controller.dart';
 
 class CreateAccount extends StatelessWidget {
@@ -22,12 +31,10 @@ class CreateAccount extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                height: SchoolSizes.spaceBtwSections,
-              ),
+
               ButtonGroup(),
-              const SizedBox(height: 60),
             ],
           ),
         ),
@@ -44,91 +51,125 @@ class ButtonGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        UserTypeButton(
-            icon: Icons.school, label: 'Student', userType: 'Student'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            UserTypeButton(
+              assetPath: 'assets/images/role_icon/student.svg',
+              label: 'Student',
+              destinationPage: AddStudent(), // Replace with your actual page widget
+            ),
+            UserTypeButton(
+              assetPath: 'assets/images/role_icon/teacher.svg',
+              label: 'Teacher',
+              destinationPage: AddTeacher(), // Replace with your actual page widget
+            ),
+          ],
+        ),
         const SizedBox(height: SchoolSizes.defaultSpace),
-        UserTypeButton(
-            icon: Icons.people, label: 'Teacher', userType: 'Teacher'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            UserTypeButton(
+              assetPath: 'assets/images/role_icon/principal.svg',
+              label: 'Principal',
+              destinationPage: AddPrincipal(), // Replace with your actual page widget
+            ),
+            UserTypeButton(
+              assetPath: 'assets/images/role_icon/director.svg',
+              label: 'Director',
+              destinationPage: AddDirector(), // Replace with your actual page widget
+            ),
+          ],
+        ),
         const SizedBox(height: SchoolSizes.defaultSpace),
-        UserTypeButton(
-            icon: Icons.account_circle,
-            label: 'Principal',
-            userType: 'Principal'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            UserTypeButton(
+              assetPath: 'assets/images/role_icon/management.svg',
+              label: 'Management',
+              destinationPage: AddManagement(), // Replace with your actual page widget
+            ),
+            UserTypeButton(
+              assetPath: 'assets/images/role_icon/staff.svg',
+              label: 'Staff',
+              destinationPage: AddStaff(), // Replace with your actual page widget
+            ),
+          ],
+        ),
         const SizedBox(height: SchoolSizes.defaultSpace),
-        UserTypeButton(
-            icon: Icons.business_center,
-            label: 'Director',
-            userType: 'Director'),
-        const SizedBox(height: SchoolSizes.defaultSpace),
-        UserTypeButton(
-            icon: Icons.business_center,
-            label: 'Management',
-            userType: 'Management'),
-        const SizedBox(height: SchoolSizes.defaultSpace),
-        UserTypeButton(
-            icon: Icons.business_center, label: 'Staff', userType: 'Staff'),
-        const SizedBox(height: SchoolSizes.defaultSpace),
-        UserTypeButton(
-            icon: Icons.business_center, label: 'Driver', userType: 'Driver'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            UserTypeButton(
+              assetPath: 'assets/images/role_icon/driver.svg',
+              label: 'Driver',
+              destinationPage: AddDriver(), // Replace with your actual page widget
+            ),
+            UserTypeButton(
+              assetPath: 'assets/images/role_icon/admin.svg',
+              label: 'Admin',
+              destinationPage: AdminHome(), // Replace with your actual page widget
+            ),
+          ],
+        ),
+
       ],
     );
   }
 }
 
 class UserTypeButton extends StatelessWidget {
-  final IconData icon;
+  final String assetPath; // Change from IconData to String for SVG path
   final String label;
-  final String userType;
+  final Widget destinationPage; // New parameter for the destination page
 
   UserTypeButton({
-    required this.icon,
+    required this.assetPath, // Updated parameter name
     required this.label,
-    required this.userType,
+    required this.destinationPage, // Include destination page in constructor
   });
 
   @override
   Widget build(BuildContext context) {
-    final CreateAccountController controller =
-        Get.find<CreateAccountController>();
-
     return GestureDetector(
       onTap: () {
-        controller.onUserTypeSelected(userType);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => destinationPage), // Navigate to destinationPage
+        );
       },
-      child: Container(
-        padding: const EdgeInsets.all(SchoolSizes.md),
-        decoration: BoxDecoration(
-          color: SchoolDynamicColors.backgroundColorTintDarkGrey,
-          borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusLg),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+      child: Column(
+        children: [
+          Container(
+            height: Get.width * 0.35,
+            width: Get.width * 0.35,
+            padding: const EdgeInsets.all(SchoolSizes.md),
+            decoration: BoxDecoration(
+              color: SchoolDynamicColors.backgroundColorTintDarkGrey,
+              borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusLg),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(
-                  icon,
-                  size: SchoolSizes.iconLg,
-                  color: SchoolDynamicColors.primaryTextColor,
-                ),
-                const SizedBox(width: SchoolSizes.spaceBtwItems),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: SchoolDynamicColors.primaryTextColor,
-                    fontSize: SchoolSizes.fontSizeSm,
-                    fontWeight: FontWeight.w500,
-                  ),
+                SvgPicture.asset(
+                  assetPath, // Use the assetPath instead of icon
+                  height: Get.width * 0.25,
+                  fit: BoxFit.cover,
                 ),
               ],
             ),
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: SchoolDynamicColors.primaryColor,
-            )
-          ],
-        ),
+          ),
+          const SizedBox(height: SchoolSizes.sm),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              // color: SchoolDynamicColors.activeBlue,
+            ),
+          ),
+        ],
       ),
     );
   }

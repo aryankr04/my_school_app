@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../utils/constants/dynamic_colors.dart';
 import '../../utils/constants/sizes.dart';
 
@@ -13,17 +12,18 @@ class SchoolDropdownFormField extends StatefulWidget {
   final InputDecoration? decoration;
   String? prefixText;
   IconData? prefixIcon;
-  final String? Function(String?)? validator;
+  final bool? isValidate;
   final void Function(String)? onSelected;
 
-  SchoolDropdownFormField({super.key,
+  SchoolDropdownFormField({
+    super.key,
     this.items,
     this.labelText,
     this.suffixText,
     this.prefixText,
     this.suffixIcon,
     this.prefixIcon,
-    this.validator,
+    this.isValidate,
     this.hintText,
     this.decoration,
     this.selectedValue,
@@ -39,8 +39,7 @@ class _SchoolDropdownFormFieldState extends State<SchoolDropdownFormField> {
   @override
   Widget build(BuildContext context) {
     // Ensure that the selectedValue is valid
-    widget.selectedValue =
-    widget.items?.contains(widget.selectedValue) == true
+    widget.selectedValue = widget.items?.contains(widget.selectedValue) == true
         ? widget.selectedValue
         : null;
 
@@ -51,55 +50,79 @@ class _SchoolDropdownFormFieldState extends State<SchoolDropdownFormField> {
           widget.labelText!,
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        const SizedBox(height: 6,),
+        const SizedBox(height: 6),
         DropdownButtonFormField<String>(
-
           value: widget.selectedValue,
-          decoration: widget.decoration??InputDecoration(
-            filled: true,
-            fillColor: SchoolDynamicColors.backgroundColorTintLightGrey,
-            hintText: widget.labelText,
-            hintStyle: Theme.of(context).textTheme.bodySmall,
-            prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon,color: SchoolDynamicColors.iconColor,) : null,
-            suffixIcon: widget.suffixIcon != null ? Icon(widget.suffixIcon,color: SchoolDynamicColors.iconColor,) : null,
-            prefixText: widget.prefixText,
-            suffixText: widget.suffixText ?? '',
-            border: InputBorder.none,
-            enabledBorder: const OutlineInputBorder().copyWith(
-              borderRadius:
-              BorderRadius.circular(SchoolSizes.inputFieldRadius),
-              borderSide:
-              BorderSide(width: 0, color: SchoolDynamicColors.backgroundColorWhiteDarkGrey),
-            ),
-            focusedBorder: const OutlineInputBorder().copyWith(
-              borderRadius:
-              BorderRadius.circular(SchoolSizes.inputFieldRadius),
-              borderSide:
-               BorderSide(width: 1.5, color: SchoolDynamicColors.primaryColor),
-            ),
-            errorBorder: const OutlineInputBorder().copyWith(
-              borderRadius:
-              BorderRadius.circular(SchoolSizes.inputFieldRadius),
-              borderSide:
-              BorderSide(width: 1, color: SchoolDynamicColors.activeRed),
-            ),
-            focusedErrorBorder: const OutlineInputBorder().copyWith(
-              borderRadius:
-              BorderRadius.circular(SchoolSizes.inputFieldRadius),
-              borderSide:
-               BorderSide(width: 2, color: SchoolDynamicColors.activeRed),
-            ),
+          hint: Text(
+            widget.hintText ?? 'Select ${widget.labelText}', // Provide a hint text
+            style: Theme.of(context).textTheme.bodySmall,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
-
+          icon: Icon(Icons.keyboard_arrow_down_rounded),
+          decoration: widget.decoration ??
+              InputDecoration(
+                filled: true,
+                fillColor: SchoolDynamicColors.backgroundColorTintLightGrey,
+                prefixIcon: widget.prefixIcon != null
+                    ? Icon(widget.prefixIcon,
+                        color: SchoolDynamicColors.iconColor)
+                    : null,
+                suffixIcon: widget.suffixIcon != null
+                    ? Icon(widget.suffixIcon,
+                        color: SchoolDynamicColors.iconColor)
+                    : null,
+                prefixText: widget.prefixText,
+                suffixText: widget.suffixText ?? '',
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                border: InputBorder.none,
+                enabledBorder: const OutlineInputBorder().copyWith(
+                  borderRadius:
+                      BorderRadius.circular(SchoolSizes.inputFieldRadius),
+                  borderSide: BorderSide(
+                      width: 0,
+                      color: SchoolDynamicColors.backgroundColorWhiteDarkGrey),
+                ),
+                focusedBorder: const OutlineInputBorder().copyWith(
+                  borderRadius:
+                      BorderRadius.circular(SchoolSizes.inputFieldRadius),
+                  borderSide: BorderSide(
+                      width: 1.5, color: SchoolDynamicColors.primaryColor),
+                ),
+                errorBorder: const OutlineInputBorder().copyWith(
+                  borderRadius:
+                      BorderRadius.circular(SchoolSizes.inputFieldRadius),
+                  borderSide: BorderSide(
+                      width: 1, color: SchoolDynamicColors.activeRed),
+                ),
+                focusedErrorBorder: const OutlineInputBorder().copyWith(
+                  borderRadius:
+                      BorderRadius.circular(SchoolSizes.inputFieldRadius),
+                  borderSide: BorderSide(
+                      width: 2, color: SchoolDynamicColors.activeRed),
+                ),
+              ),
           items: widget.items?.map((item) {
             return DropdownMenuItem(
               value: item,
-              child: Text(item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  )),
+              child: Text(
+                item,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             );
           }).toList(),
+
+          validator: (value) {
+            // Check if validation is enabled
+            if (widget.isValidate == true) {
+              // If the value is null or empty, return an error message
+              if (value == null || value.isEmpty) {
+                return ''; // Custom error message
+              }
+            }
+            return null; // Return null if the value is valid or validation is not enabled
+          },
           onChanged: (val) {
             setState(() {
               widget.selectedValue = val!;

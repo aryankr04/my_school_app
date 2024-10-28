@@ -40,7 +40,7 @@ class _SchoolStepperState extends State<SchoolStepper> {
           height: 30,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: isCompleted ? SchoolDynamicColors.primaryColor : isActive ? SchoolDynamicColors.primaryColor : Colors.grey[300],
+            color: isCompleted ? SchoolDynamicColors.primaryColor : isActive ? SchoolDynamicColors.primaryColor : SchoolDynamicColors.softGrey,
           ),
           child: Center(
             child: isCompleted
@@ -52,7 +52,7 @@ class _SchoolStepperState extends State<SchoolStepper> {
                 : Text(
               '${index + 1}',
               style: TextStyle(
-                color: isActive ? Colors.white : Colors.black,
+                color: isActive ? Colors.white : SchoolDynamicColors.subtitleTextColor,
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Step5FormController extends GetxController {
-  final step5FormKey = GlobalKey<FormState>();
+class StudentStep5FormController extends GetxController {
+  final GlobalKey<FormState> step5FormKey = GlobalKey<FormState>();
 
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  RxString selectedHeightFt = RxString('');
+  RxString selectedHeightInch = RxString('');
+  TextEditingController weightController = TextEditingController();
+  RxString selectedBloodGroup = RxString('');
+  RxString selectedVisionCondition = RxString('');
+  RxString selectedMedicalCondition = RxString('');
+  RxString isPhysicalDisability = RxString('');
 
   @override
   void onClose() {
-    // Clean up your controllers when the widget is disposed
-    usernameController.dispose();
-    passwordController.dispose();
+    weightController.dispose();
     super.onClose();
   }
 
   @override
   void updateFormValidity() {
+    // TODO: implement updateFormValidity
   }
 
   bool isFormValid() {

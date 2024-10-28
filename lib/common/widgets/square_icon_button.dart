@@ -22,9 +22,9 @@ class SchoolIcon extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.blue, // Update with your desired color
-            borderRadius:
-                BorderRadius.circular(12), // Update with your desired radius
+            // borderRadius:
+            //     BorderRadius.circular(12), // Update with your desired radius
+            shape: BoxShape.circle
           ),
           child: InkWell(
             onTap: () {
@@ -34,23 +34,23 @@ class SchoolIcon extends StatelessWidget {
               }
             },
             child: Container(
-              width: 70,
-              height: 70,
+              width: 50,
+              height: 50,
               padding: icon is SvgPicture
                   ? EdgeInsets.all(SchoolSizes.md)
                   : EdgeInsets.all(0),
               decoration: BoxDecoration(
-                color: color,
+                color: color!.withOpacity(0.1),
                 // gradient: LinearGradient(
                 //     colors: [Color(0xff1191FD), Color(0xff5E59F4)],begin: Alignment.topLeft,end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(
-                    12), // Update with your desired radius
+                  shape: BoxShape.circle
+
               ),
               child: icon is IconData // Check if the icon is IconData
                   ? Icon(
                       icon as IconData,
-                      size: 30,
-                      color: Colors.white,
+                      size: 24,
+                      color: color,
                     )
                   : (icon is SvgPicture) // Check if the icon is SvgPicture
                       ? SizedBox(

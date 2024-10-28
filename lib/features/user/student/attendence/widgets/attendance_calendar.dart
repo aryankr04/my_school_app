@@ -250,8 +250,9 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
               // SizedBox for adding space between header and calendar.
               SizedBox(height: 8),
               // Container for displaying the calendar using PageView.
+
               Container(
-                height: 330,
+                height: 330, // Calculate height based on rows
                 child: PageView.builder(
                   controller: controller.pageController,
                   onPageChanged: controller.onPageChanged,
@@ -270,6 +271,18 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
         );
       },
     );
+  }
+
+  double calculateRows(int year, int month) {
+    final int daysInMonth = _daysInMonth(year, month);
+    final DateTime firstDayOfMonth = DateTime(year, month, 1);
+    final int offset = firstDayOfMonth.weekday;
+
+    // Calculate total slots (days + offset)
+    int totalSlots = daysInMonth + offset;
+
+    // Calculate number of rows needed (7 days in a week)
+    return (totalSlots / 7).ceil().toDouble(); // Round up to the next whole number and convert to double
   }
 
   Widget _buildMonthCalendar(int year, int month) {

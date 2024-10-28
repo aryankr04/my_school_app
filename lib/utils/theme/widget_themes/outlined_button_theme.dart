@@ -17,7 +17,7 @@ class SchoolOutlinedButtonTheme {
       foregroundColor: SchoolColors.darkBackgroundColor,
       side:  BorderSide(color: SchoolColors.borderColor),
       textStyle: const TextStyle(fontSize: 16, color: SchoolColors.black, fontWeight: FontWeight.w600),
-      padding: const EdgeInsets.symmetric(vertical: SchoolSizes.buttonHeight, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: SchoolSizes.md, horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(SchoolSizes.buttonRadius)),
     ),
   );
@@ -29,7 +29,7 @@ class SchoolOutlinedButtonTheme {
       foregroundColor: SchoolColors.lightBackgroundColor,
       side:  BorderSide(color: SchoolColors.borderColor),
       textStyle: TextStyle(fontSize: 16, color: SchoolColors.whiteTextColor, fontWeight: FontWeight.w600),
-      padding: const EdgeInsets.symmetric(vertical: SchoolSizes.buttonHeight, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: SchoolSizes.md, horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(SchoolSizes.buttonRadius)),
     ),
   );

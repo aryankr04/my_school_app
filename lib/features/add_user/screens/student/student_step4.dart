@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:my_school_app/common/widgets/dropdown_form_feild.dart';
-import 'package:my_school_app/utils/constants/lists.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:my_school_app/utils/constants/colors.dart';
 import 'package:my_school_app/utils/constants/sizes.dart';
+import '../../../../common/widgets/text_form_feild.dart';
 import '../../controllers/student/add_student_step4_controller.dart';
 
-class Step4Form extends StatelessWidget {
-  final Step4FormController controller ;
+class StudentStep4Form extends StatelessWidget {
+  final StudentStep4FormController controller;
 
-  const Step4Form({super.key, required this.controller});
+  const StudentStep4Form({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -18,84 +19,102 @@ class Step4Form extends StatelessWidget {
           key: controller.step4FormKey,
           child: Column(
             children: <Widget>[
-              SchoolDropdownFormField(
-                labelText: 'Transportation',
-                items: SchoolLists.transportationList,
-                selectedValue: controller.transportation.value,
-                onSelected: (value) {
-                  controller.transportation.value = value!;
-                },
-              ),
-              const SizedBox(
-                height: SchoolSizes.defaultSpace,
-              ),
-              SchoolDropdownFormField(
-                items: SchoolLists.subjectList,
-                labelText: 'Vehicle No',
-                selectedValue: controller.vehicleNo.value,
-                onSelected: (value) {
-                  controller.vehicleNo.value = value!;
-                },
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Your Favorites',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.w700, fontSize: 18),
-                ),
+              SchoolTextFormField(
+                labelText: "Father's Name",
+                keyboardType: TextInputType.name,
+                controller: controller.fatherNameController,
+                validator: RequiredValidator(errorText: ''),
               ),
               SizedBox(
-                height: 8,
+                height: SchoolSizes.lg,
               ),
-              SchoolDropdownFormField(
-                items: SchoolLists.subjectList,
-                labelText: 'Subject',
-                selectedValue: controller.subject.value,
-                onSelected: (value) {
-                  controller.subject.value = value!;
-                },
+              SchoolTextFormField(
+                labelText: "Father's Mobile No.",
+                suffixIcon: Icons.phone_android,
+                keyboardType: TextInputType.phone,
+                controller: controller.fatherMobileNoController,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: ''),
+                  LengthRangeValidator(
+                      min: 10, max: 10, errorText: 'Enter valid mobile no.'),
+                ]),
               ),
-              const SizedBox(
-                height: SchoolSizes.defaultSpace,
+              SizedBox(
+                height: SchoolSizes.lg,
               ),
-              SchoolDropdownFormField(
-                items: SchoolLists.subjectList,
-                labelText: 'Teacher',
-                selectedValue: controller.teacher.value,
-                onSelected: (value) {
-                  controller.teacher.value = value!;
-                },
+              SchoolTextFormField(
+                labelText: "Father's Occupation",
+                keyboardType: TextInputType.name,
+                controller: controller.fatherOccupationController,
+                validator:
+                    RequiredValidator(errorText: ""),
               ),
-              const SizedBox(
-                height: SchoolSizes.defaultSpace,
+              const SizedBox(height: SchoolSizes.md),
+              Divider(
+                thickness: 0.5,
+                color: SchoolColors.grey,
               ),
-              SchoolDropdownFormField(
-                items: SchoolLists.subjectList,
-                labelText: 'Sports',
-                selectedValue: controller.sports.value,
-                onSelected: (value) {
-                  controller.sports.value = value!;
-                },
+              const SizedBox(height: SchoolSizes.md),
+              SchoolTextFormField(
+                labelText: "Mother's Name",
+                keyboardType: TextInputType.name,
+                controller: controller.motherNameController,
+                validator: RequiredValidator(errorText: ''),
               ),
-              const SizedBox(
-                height: SchoolSizes.defaultSpace,
+              const SizedBox(height: SchoolSizes.defaultSpace),
+              SchoolTextFormField(
+                labelText: "Mother's Mobile No.",
+                suffixIcon: Icons.phone_android,
+                keyboardType: TextInputType.phone,
+                controller: controller.motherMobileNoController,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: ""),
+                  LengthRangeValidator(
+                      min: 10, max: 10, errorText: 'Enter valid mobile no.'),
+                ]),
               ),
-              SchoolDropdownFormField(
-                items: SchoolLists.subjectList,
-                labelText: 'Other Activities',
-                selectedValue: controller.activities.value,
-                onSelected: (value) {
-                  controller.activities.value = value!;
-                },
+              const SizedBox(height: SchoolSizes.defaultSpace),
+              SchoolTextFormField(
+                labelText: "Mother's Occupation",
+                keyboardType: TextInputType.name,
+                controller: controller.motherOccupationController,
+                validator:
+                    RequiredValidator(errorText: ""),
               ),
-              const SizedBox(
-                height: SchoolSizes.spaceBtwSections,
+              const SizedBox(height: SchoolSizes.md),
+              Divider(
+                thickness: 0.5,
+                color: SchoolColors.grey,
+              ),
+              const SizedBox(height: SchoolSizes.md),
+              SchoolTextFormField(
+                labelText: "Guardian's Name",
+                keyboardType: TextInputType.name,
+                controller: controller.guardianNameController,
+                validator:
+                    RequiredValidator(errorText: ''),
+              ),
+              const SizedBox(height: SchoolSizes.defaultSpace),
+              SchoolTextFormField(
+                labelText: "Relationship to Guardian",
+                keyboardType: TextInputType.name,
+                controller: controller.relationshipToGuardianController,
+                validator: RequiredValidator(
+                    errorText: ''),
+              ),
+              SizedBox(
+                height: SchoolSizes.lg,
+              ),
+              SchoolTextFormField(
+                labelText: "Guardian's Mobile No.",
+                suffixIcon: Icons.phone_android,
+                keyboardType: TextInputType.phone,
+                controller: controller.guardianMobileNoController,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: ''),
+                  LengthRangeValidator(
+                      min: 10, max: 10, errorText: 'Enter valid mobile no.'),
+                ]),
               ),
             ],
           ),

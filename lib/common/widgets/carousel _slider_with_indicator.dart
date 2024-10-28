@@ -54,8 +54,8 @@ class _SchoolCarouselSliderWithIndicatorState
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: _currentIndex == index
-                ? Colors.blue
-                : Colors.grey.withOpacity(0.5),
+                ? SchoolDynamicColors.white
+                : SchoolDynamicColors.white.withOpacity(0.5),
           ),
         ),
       ),

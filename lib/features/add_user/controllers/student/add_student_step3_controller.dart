@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Step3FormController extends GetxController {
+class StudentStep3FormController extends GetxController {
   final step3FormKey = GlobalKey<FormState>();
 
   final mobileNoController = TextEditingController();
   final emailAddressController = TextEditingController();
   final aadhaarNoController = TextEditingController();
   final houseAddressController = TextEditingController();
-  RxString state = RxString('');
-  RxString district = RxString('');
-  RxString city = RxString('');
+  final pinCodeController = TextEditingController();
+  RxString selectedState = RxString('');
+  RxString selectedDistrict = RxString('');
+  RxString selectedCity = RxString('');
 
   @override
   void onClose() {
@@ -18,6 +19,7 @@ class Step3FormController extends GetxController {
     emailAddressController.dispose();
     aadhaarNoController.dispose();
     houseAddressController.dispose();
+    pinCodeController.dispose();
     super.onClose();
   }
 

@@ -7,11 +7,13 @@ import 'package:my_school_app/utils/constants/sizes.dart';
 class ImagePickerWidget extends StatefulWidget {
   final File? image;
   final ValueChanged<File> onImageSelected;
+  final String? label;
 
   const ImagePickerWidget({
     Key? key,
     required this.image,
     required this.onImageSelected,
+    this.label,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,8 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   }
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -39,65 +42,88 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
         GestureDetector(
           onTap: _pickImage,
           child: Stack(
             children: [
               Container(
-                width: 100,
-                height: 100,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+                  color: SchoolDynamicColors.activeBlue.withOpacity(0.05),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(SchoolSizes.cardRadiusXs)),
                   border: Border.all(
                     color: SchoolDynamicColors.primaryColor,
-                    width: 0,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundImage: _image != null
-                      ? FileImage(_image!)
-                      : null,
-                  backgroundColor: SchoolDynamicColors.primaryTintColor,
-                ),
-              ),
-               Positioned(
-                bottom: 0,
-                right: 0,
-                child: CircleAvatar(
-                  radius: 16,
-                  backgroundColor: SchoolDynamicColors.primaryColor,
-                  child: Icon(
-                    Icons.camera_alt,
-                    color: Colors.white,
-                    size: 16,
+                    width: 1,
                   ),
                 ),
+                child: _image == null
+                    ? Icon(
+                        Icons.add_a_photo_rounded,
+                        size: 28,
+                        color: SchoolDynamicColors.activeBlue,
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(SchoolSizes.cardRadiusXs)),
+                        child: Image.file(
+                          _image!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
               ),
             ],
           ),
         ),
         const SizedBox(
-          height: SchoolSizes.sm,
+          width: SchoolSizes.lg,
         ),
-        Text(
-          _image == null ? 'Select Profile Image' : 'Image Selected',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: _image == null ? Colors.red : Colors.green,
+        Expanded(
+          // Wrap the container with Expanded
+          child: InkWell(
+            onTap: _pickImage,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: _image == null
+                    ? SchoolDynamicColors.activeBlue
+                    : SchoolDynamicColors.activeBlue,
+                borderRadius:
+                    BorderRadius.all(Radius.circular(SchoolSizes.cardRadiusXs)),
+              ),
+              child: Text(
+                _image == null
+                    ? widget.label != null
+                        ? "Select ${widget.label!} Image "
+                        : 'Select a Profile Image'
+                    : 'Change ${widget.label!} Image', // Use the label
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center, // Center the text
+              ),
+            ),
           ),
         ),
+        const SizedBox(
+          width: SchoolSizes.lg,
+        ),
+        _image != null
+            ? CircleAvatar(
+                backgroundColor: SchoolDynamicColors.activeGreen,
+                radius: 14,
+                child: Icon(
+                  Icons.check_rounded,
+                  size: 22,
+                  color: SchoolDynamicColors.white,
+                ))
+            : SizedBox()
       ],
     );
   }

@@ -55,7 +55,7 @@ class _CreateResultFormatState extends State<CreateResultFormat> {
               SchoolDropdownFormField(
                 items: SchoolLists.classList,
                 labelText: 'Class',
-                validator: RequiredValidator(errorText: 'Select class'),
+                isValidate: true,
                 onSelected: (value) {
                   selectedClass.value = value;
                 },

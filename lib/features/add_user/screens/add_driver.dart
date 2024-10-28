@@ -149,7 +149,7 @@ class AddDriver extends StatelessWidget {
                 items: SchoolLists.genderList,
                 labelText: 'Gender',
                 prefixIcon: Icons.transgender,
-                validator: RequiredValidator(errorText: 'Select your Gender'),
+                isValidate: true,
                 onSelected: (value) {
                   controller.selectedGender.value = value;
                 },

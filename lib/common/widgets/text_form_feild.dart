@@ -17,7 +17,7 @@ class SchoolTextFormField extends StatelessWidget {
   final bool? readOnly;
   final String? Function(String?)? validator;
   final int? maxLines;
-  bool? obscureText;
+  final bool? obscureText;
   SchoolTextFormField({
     this.labelText,
     this.prefixText,
@@ -38,13 +38,15 @@ class SchoolTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           labelText ?? '',
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w500, ),
+                fontWeight: FontWeight.w500,
+              ),
         ),
         SizedBox(
           height: 6,
@@ -57,7 +59,8 @@ class SchoolTextFormField extends StatelessWidget {
           readOnly: readOnly ?? false,
           decoration: decoration ??
               InputDecoration(
-                hintText: labelText,
+                hintText: hintText ??
+                    'Enter ${labelText}', // Provide a hint text
                 hintStyle: Theme.of(context).textTheme.bodySmall,
                 filled: true,
                 fillColor: SchoolDynamicColors.backgroundColorTintLightGrey,
@@ -79,26 +82,27 @@ class SchoolTextFormField extends StatelessWidget {
                 enabledBorder: const OutlineInputBorder().copyWith(
                   borderRadius:
                       BorderRadius.circular(SchoolSizes.inputFieldRadius),
-                  borderSide:
-                      BorderSide(width: 0, color: SchoolDynamicColors.backgroundColorWhiteDarkGrey),
+                  borderSide: BorderSide(
+                      width: 0,
+                      color: SchoolDynamicColors.backgroundColorWhiteDarkGrey),
                 ),
                 focusedBorder: const OutlineInputBorder().copyWith(
                   borderRadius:
                       BorderRadius.circular(SchoolSizes.inputFieldRadius),
-                  borderSide:
-                       BorderSide(width: 1.5, color: SchoolDynamicColors.primaryColor),
+                  borderSide: BorderSide(
+                      width: 1.5, color: SchoolDynamicColors.primaryColor),
                 ),
                 errorBorder: const OutlineInputBorder().copyWith(
                   borderRadius:
                       BorderRadius.circular(SchoolSizes.inputFieldRadius),
-                  borderSide:
-                      BorderSide(width: 1, color: SchoolDynamicColors.activeRed),
+                  borderSide: BorderSide(
+                      width: 1, color: SchoolDynamicColors.activeRed),
                 ),
                 focusedErrorBorder: const OutlineInputBorder().copyWith(
                   borderRadius:
                       BorderRadius.circular(SchoolSizes.inputFieldRadius),
-                  borderSide:
-                      BorderSide(width: 2, color: SchoolDynamicColors.activeRed),
+                  borderSide: BorderSide(
+                      width: 2, color: SchoolDynamicColors.activeRed),
                 ),
               ),
           validator: validator,

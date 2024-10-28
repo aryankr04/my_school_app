@@ -5,53 +5,106 @@ import 'package:get/get.dart';
 import 'package:my_school_app/utils/helpers/helper_functions.dart';
 
 import '../../../../../../data/services/firebase_for_school.dart';
+import '../../../../utils/constants/dynamic_colors.dart';
+import '../../../../utils/constants/lists.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../../user/management/noticeboard/add_notice_new.dart';
 
-class Step1FormController extends GetxController {
+class StudentStep1FormController extends GetxController {
   FirebaseForSchool firebaseFunction = FirebaseForSchool();
 
-  final GlobalKey<FormState> step5FormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> step1FormKey = GlobalKey<FormState>();
 
-  TextEditingController selectedSchoolController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
 
-  Rx<File?> image = Rx<File?>(null);
-  TextEditingController studentNameController = TextEditingController();
-  Rx<String> selectedClassController = Rx<String>('');
-  Rx<String> selectedSectionController = Rx<String>('');
-  TextEditingController rollNoController = TextEditingController();
   Rx<DateTime?> dateOfBirth = Rx<DateTime?>(null);
-  TextEditingController fatherNameController = TextEditingController();
-  TextEditingController motherNameController = TextEditingController();
-  RxList<Map<String, dynamic>> schoolList = <Map<String, dynamic>>[].obs;
 
-  Future<void> fetchSchools(String query) async {
-    try {
-      final schools = await firebaseFunction.fetchSchools(query);
-      schoolList.assignAll(schools);
-    } catch (e) {
-      print('Error fetching schools: $e');
-    }
-  }
+  Rx<String> selectedGender = Rx<String>('');
+  Rx<String> selectedNationality = Rx<String>('');
+  Rx<String> selectedReligion = Rx<String>('');
+  Rx<String> selectedCategory = Rx<String>('');
+
+  RxList<String> selectedLanguages = <String>[].obs;
+  TextEditingController languagesController = TextEditingController();
 
   @override
   void onClose() {
-    studentNameController.dispose();
-    rollNoController.dispose();
-    fatherNameController.dispose();
-    motherNameController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    languagesController.dispose();
     super.onClose();
   }
 
-  void setImage(File value) {
-    image.value = value;
+  Future<void> showLanguagesSelectionDialog() async {
+    await showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          backgroundColor: Colors.white,
+          title: const Text('Select Languages'),
+          content: Container(
+            width: Get.width,
+            color: Colors.white,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  MultiSelectionWidget(
+                    showSelectAll: false,
+                    options: SchoolLists.languagesSpoken,
+                    onSelectionChanged: (selectedItems) {
+                      selectedLanguages.assignAll(selectedItems);
+                    },
+                    selectedItems: selectedLanguages,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  // Make the button take up the available width
+                  child: InkWell(
+                    onTap: () {
+                      languagesController.text = selectedLanguages.join(', ');
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: SchoolSizes.md),
+                      decoration: BoxDecoration(
+                        color: SchoolDynamicColors.activeBlue,
+                        borderRadius:
+                        BorderRadius.circular(SchoolSizes.cardRadiusXs),
+                      ),
+                      alignment:
+                      Alignment.center,
+                      child: Text(
+                        'OK',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  bool isFormValid() {
-    if (image.value == null) {
-      SchoolHelperFunctions.showAlertSnackBar( 'Please Select Profile Image');
-      return false;
-    }
 
-    return step5FormKey.currentState?.validate() ?? false;
+  bool isFormValid() {
+    return step1FormKey.currentState?.validate() ?? false;
   }
 
 }
