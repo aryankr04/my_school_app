@@ -1,14 +1,8 @@
 import 'package:get/get.dart';
 
 import '../../../utils/helpers/helper_functions.dart';
-import 'package:my_school_app/features/add_user/screens/add_driver.dart';
-import 'package:my_school_app/features/add_user/screens/add_staff.dart';
-
-import '../../add_user/screens/add_director.dart';
-import '../../add_user/screens/add_management.dart';
-import '../../add_user/screens/add_principal.dart';
+import '../../add_user/screens/school_staff/school_staff0.dart';
 import '../../add_user/screens/student/student0.dart';
-import '../../add_user/screens/student/teacher/teacher0.dart';
 
 class CreateAccountController extends GetxController {
   void onUserTypeSelected(String userType) {
@@ -17,22 +11,22 @@ class CreateAccountController extends GetxController {
         SchoolHelperFunctions.navigateToScreen(Get.context!, AddStudent());
         break;
       case 'Teacher':
-        SchoolHelperFunctions.navigateToScreen(Get.context!, AddTeacher());
+        SchoolHelperFunctions.navigateToScreen(Get.context!, AddSchoolStaff());
         break;
       case 'Principal':
-        SchoolHelperFunctions.navigateToScreen(Get.context!, AddPrincipal());
+        SchoolHelperFunctions.navigateToScreen(Get.context!, AddSchoolStaff());
         break;
       case 'Director':
-        SchoolHelperFunctions.navigateToScreen(Get.context!, AddDirector());
+        SchoolHelperFunctions.navigateToScreen(Get.context!, AddSchoolStaff());
         break;
       case 'Management':
-        SchoolHelperFunctions.navigateToScreen(Get.context!, AddManagement());
+        SchoolHelperFunctions.navigateToScreen(Get.context!, AddSchoolStaff());
         break;
       case 'Staff':
-        SchoolHelperFunctions.navigateToScreen(Get.context!, AddStaff());
+        SchoolHelperFunctions.navigateToScreen(Get.context!, AddSchoolStaff());
         break;
       case 'Driver':
-        SchoolHelperFunctions.navigateToScreen(Get.context!, AddDriver());
+        SchoolHelperFunctions.navigateToScreen(Get.context!, AddSchoolStaff());
         break;
     }
   }

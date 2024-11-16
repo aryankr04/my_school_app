@@ -737,7 +737,7 @@ class _StudentHomeState extends State<StudentHome> {
                 icon: Icons.receipt_outlined,
                 text: 'Routine',
                 color: SchoolDynamicColors.colorSkyBlue,
-                destination: Routine(),
+                destination: MyRoutine(),
               ),
               SchoolIcon(
                 icon: Icons.directions_bus_filled,

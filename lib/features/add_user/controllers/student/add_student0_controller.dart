@@ -152,8 +152,7 @@ class AddStudent0Controller extends GetxController {
         district: step3Controller.selectedDistrict.value.trim(),
         city: step3Controller.selectedCity.value.trim(),
         pincode: step3Controller.pinCodeController.value.toString().trim(),
-        isTransportRequired:
-            step2Controller.isTransportRequired.value.trim() == 'Yes',
+
         modeOfTransportation:
             step2Controller.selectedModeOfTransport.value.trim(),
         vehicleNo: step2Controller.selectedVehicleNo.value.trim(),

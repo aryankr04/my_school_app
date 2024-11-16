@@ -322,7 +322,7 @@ class _HomeState extends State<Home> {
               icon: Icons.receipt_outlined,
               text: 'Routine',
               color: SchoolDynamicColors.colorSkyBlue,
-              destination: Routine(),
+              destination: MyRoutine(),
             ),
           ],
         ),

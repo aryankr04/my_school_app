@@ -1,77 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:my_school_app/features/user/student/attendence/screens/my_attendance.dart';
 import 'package:my_school_app/features/user/student/attendence/widgets/attendance_calendar.dart';
 import 'package:my_school_app/utils/helpers/helper_functions.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../../../../data/repositories/school_class_repository.dart';
 import '../../../../utils/constants/dynamic_colors.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../manage_school/models/school_class.dart';
+import '../../teacher/attendence/models/student_attendance.dart';
 
-class MonthlyAttendance {
+class StudentAttendance0 {
   final String date;
-  final String status;
+  final bool status;
 
-  MonthlyAttendance({required this.date, required this.status});
+  StudentAttendance0({required this.date, required this.status});
 }
 
 class AttendanceController extends GetxController {
-  RxList<MonthlyAttendance> monthlyAttendance = <MonthlyAttendance>[].obs;
-
   RxBool isLoadingAttendance = true.obs;
 
-  Future<List<MonthlyAttendance>> fetchStudentAttendanceForMonth(
-      String sectionId, String studentId, int year, int month) async {
+
+  RxInt absent = 0.obs;
+  RxInt present = 0.obs;
+  RxInt holidays = 0.obs;
+  RxInt working = 0.obs;
+  RxInt totalDays = 0.obs;
+
+  final SchoolClassRepository schoolClassRepository = SchoolClassRepository();
+  SchoolClass? schoolClass;
+  RxList<StudentAttendance0> studentAttendanceList = <StudentAttendance0>[].obs;
+
+  Future<void> fetchStudentAttendance(String classId, String studentId) async {
     try {
-      // Get the first and last dates of the month
-      DateTime firstDateOfMonth = DateTime(year, month, 1);
-      DateTime lastDateOfMonth =
-          DateTime(year, month + 1, 0); // Last day of the month
+      // Fetch the class object
+      SchoolClass? schoolClass =
+          await schoolClassRepository.getSchoolClass(classId);
 
-      // Format first and last dates of the month
-      String formattedFirstDate =
-          SchoolHelperFunctions.getFormattedDate(firstDateOfMonth);
-      String formattedLastDate =
-          SchoolHelperFunctions.getFormattedDate(lastDateOfMonth);
-      print(formattedLastDate);
+      if (schoolClass == null) {
+        print('Error: schoolClass is null');
+        studentAttendanceList
+            .clear(); // Clear the list in case of null response
+        return;
+      }
 
-      // Create a reference to the collection containing attendance data for the student
-      var attendanceCollectionReference = FirebaseFirestore.instance
-          .collection('attendance')
-          .doc(sectionId)
-          .collection('students')
-          .doc(studentId)
-          .collection('dates');
+      // Extract attendance for the specific student and map to StudentAttendance0
+      var attendanceList = schoolClass.attendanceByDate.entries
+          .where(
+              (entry) => entry.value.attendanceRecords.containsKey(studentId))
+          .map((entry) {
+        // Format date to a readable string (e.g., '2024-11-16')
+        String formattedDate =
+            DateFormat('yyyy-MM-dd').format(entry.value.date);
+        bool status = entry.value.attendanceRecords[studentId]! ? true : false;
 
-      // Query for documents within the specified date range
-      var querySnapshot = await attendanceCollectionReference
-          .where(FieldPath.documentId,
-              isGreaterThanOrEqualTo: formattedFirstDate)
-          .where(FieldPath.documentId, isLessThanOrEqualTo: formattedLastDate)
-          .get();
+        return StudentAttendance0(date: formattedDate, status: status);
+      }).toList();
 
-      // List to store the fetched attendance data
-      List<MonthlyAttendance> monthlyAttendance = [];
-
-      // Iterate through the query snapshot
-      querySnapshot.docs.forEach((document) {
-        String formattedDate = document.id;
-        bool isPresent = document.data()['present'];
-        String status = isPresent ? 'Present' : 'Absent';
-
-        monthlyAttendance
-            .add(MonthlyAttendance(date: formattedDate, status: status));
-      });
-
-      monthlyAttendance.sort((a, b) => a.date.compareTo(b.date));
-
-      // Return the fetched attendance data
-      return monthlyAttendance;
+      // Update the reactive list
+      studentAttendanceList.assignAll(attendanceList);
     } catch (e) {
-      print(
-          'Error fetching student attendance for $studentId for the month of $year-$month: $e');
-      // Handle the error as needed
-      return [];
+      print('Error fetching attendance: $e');
+      studentAttendanceList.clear(); // Clear the list in case of an error
     }
   }
 }
@@ -85,24 +78,12 @@ class Attendance extends StatefulWidget {
 
 class _AttendanceState extends State<Attendance> {
   final AttendanceController controller = Get.put(AttendanceController());
-  final AttendanceCalendarController attendanceCalendarController =
-      Get.put(AttendanceCalendarController());
-
-  void fetchMonthlyAttendanceData() async {
-    // Assuming you have the sectionId, studentId, year, and month values available
-    controller.isLoadingAttendance(true);
-    List<MonthlyAttendance> attendanceList =
-        await controller.fetchStudentAttendanceForMonth(
-            'SEC0000000004', 'STU0000000001', 2024, 3);
-    controller.monthlyAttendance.assignAll(attendanceList);
-    controller.isLoadingAttendance(false);
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchMonthlyAttendanceData();
+    controller.fetchStudentAttendance('CLA0000000001', 'S1565');
   }
 
   @override
@@ -122,9 +103,8 @@ class _AttendanceState extends State<Attendance> {
           padding: const EdgeInsets.all(SchoolSizes.lg),
           child: Obx(() => Column(
                 children: [
-                  AttendanceCalendar(
-                    monthlyAttendance: controller.monthlyAttendance,
-                  ),
+                  MyAttendanceCalendar(
+                      studentAttendanceList: controller.studentAttendanceList),
                   const SizedBox(
                     height: SchoolSizes.lg,
                   ),
@@ -158,8 +138,8 @@ class _AttendanceState extends State<Attendance> {
                         AttendanceStatus(
                           color: SchoolDynamicColors.activeBlue,
                           title: 'Working ',
-                          days: attendanceCalendarController.working.value,
-                          total: attendanceCalendarController.working.value,
+                          days: controller.working.value,
+                          total: controller.working.value,
                         ),
                         Container(
                           width: 2,
@@ -170,8 +150,8 @@ class _AttendanceState extends State<Attendance> {
                         AttendanceStatus(
                           color: SchoolDynamicColors.activeGreen,
                           title: 'Present ',
-                          days: attendanceCalendarController.present.value,
-                          total: attendanceCalendarController.working.value,
+                          days: controller.present.value,
+                          total: controller.working.value,
                         ),
                         Container(
                           width: 2,
@@ -182,8 +162,8 @@ class _AttendanceState extends State<Attendance> {
                         AttendanceStatus(
                           color: SchoolDynamicColors.activeRed,
                           title: 'Absent ',
-                          days: attendanceCalendarController.absent.value,
-                          total: attendanceCalendarController.working.value,
+                          days: controller.absent.value,
+                          total: controller.working.value,
                         ),
                       ],
                     ),
@@ -217,7 +197,7 @@ class _AttendanceState extends State<Attendance> {
                                 radius: 4),
                             const SizedBox(width: SchoolSizes.sm),
                             Text(
-                              'Total Holidays out of ${attendanceCalendarController.totalDays.value} days -  ',
+                              'Total Holidays out of ${controller.totalDays.value} days -  ',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -227,7 +207,7 @@ class _AttendanceState extends State<Attendance> {
                             ),
                             //const SizedBox(width: SchoolSizes.md),
                             Text(
-                              '${attendanceCalendarController.holidays.value}',
+                              '${controller.holidays.value}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -245,12 +225,12 @@ class _AttendanceState extends State<Attendance> {
                           animation: true,
                           circularStrokeCap: CircularStrokeCap.round,
                           lineWidth: 6,
-                          percent: attendanceCalendarController.totalDays > 0
-                              ? attendanceCalendarController.holidays.value /
-                                  attendanceCalendarController.totalDays.value
+                          percent: controller.totalDays > 0
+                              ? controller.holidays.value /
+                              controller.totalDays.value
                               : 0.0,
                           center: Text(
-                            '${attendanceCalendarController.totalDays > 0 ? ((attendanceCalendarController.holidays.value / attendanceCalendarController.totalDays.value) * 100).toStringAsFixed(1) : 0.0}%',
+                            '${controller.totalDays > 0 ? ((controller.holidays.value / controller.totalDays.value) * 100).toStringAsFixed(1) : 0.0}%',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: SchoolDynamicColors

@@ -325,7 +325,7 @@ Widget dialogSelector(
             color: name.value == ''
                 ? SchoolDynamicColors.backgroundColorWhiteDarkGrey
                 : SchoolDynamicColors.primaryColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(48),
+            borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusSm),
             border: Border.all(
               color: name.value == ''
                   ? SchoolHelperFunctions.isDarkMode(Get.context!)
@@ -336,7 +336,7 @@ Widget dialogSelector(
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
             child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -350,15 +350,15 @@ Widget dialogSelector(
 
                 Row(
                   children: [
-                    SizedBox(
-                      width: SchoolSizes.xs,
-                    ),
+                    // SizedBox(
+                    //   width: SchoolSizes.xs,
+                    // ),
                     Icon(
                       Icons.arrow_drop_down,
                       color: name.value == ''
                           ? SchoolDynamicColors.iconColor
                           : SchoolDynamicColors.primaryColor,
-                      size: 30,
+                      size: 24
                     ),
                   ],
                 )

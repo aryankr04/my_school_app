@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
-class TeacherStep5FormController extends GetxController {
+class SchoolStaffStep5FormController extends GetxController {
   final GlobalKey<FormState> step5FormKey = GlobalKey<FormState>();
   final TextEditingController mobileNoController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();

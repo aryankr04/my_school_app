@@ -37,7 +37,10 @@ class SchoolDateAndTimeFunction {
       {String format = 'dd-MM-yyyy'}) {
     return DateFormat(format).format(date);
   }
-
+ static String getCurrentDay() {
+    // Get the current date and format it to get the day name
+    return DateFormat('EEEE').format(DateTime.now()); // 'EEEE' gives full day name like 'Monday'
+  }
   static String formatDate(int day, int month, int year) {
     DateTime date = DateTime(year, month, day);
     DateFormat formatter = DateFormat('dd-MM-yyyy');

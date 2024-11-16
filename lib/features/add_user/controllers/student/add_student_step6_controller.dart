@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_school_app/utils/constants/sizes.dart';
 
+import '../../../../common/widgets/multi_selection_widget.dart';
 import '../../../../utils/constants/dynamic_colors.dart';
 import '../../../../utils/constants/lists.dart';
 import '../../../user/management/noticeboard/add_notice_new.dart';

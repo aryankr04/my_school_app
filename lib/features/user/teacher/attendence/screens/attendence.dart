@@ -9,6 +9,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../../utils/constants/dynamic_colors.dart';
 import '../../../../../utils/constants/sizes.dart';
+import 'my_submit_attendance.dart';
 
 class SectionInfo {
   final String sectionId;
@@ -143,10 +144,8 @@ class TAttendanceController extends GetxController {
 
   void onSubmitPressed(String sectionId, String name, String className) {
     Get.to(
-      SubmitAttendance(
-        sectionId: sectionId,
-        name: name,
-        className: className,
+      MySubmitAttendance(
+
       ),
     );
   }

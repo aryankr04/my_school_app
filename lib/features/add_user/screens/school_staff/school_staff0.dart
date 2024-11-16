@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:my_school_app/features/add_user/controllers/teacher/add_teacher0_controller.dart';
-import 'package:my_school_app/features/add_user/screens/student/teacher/teacher_step0.dart';
-import 'package:my_school_app/features/add_user/screens/student/teacher/teacher_step1.dart';
-import 'package:my_school_app/features/add_user/screens/student/teacher/teacher_step2.dart';
-import 'package:my_school_app/features/add_user/screens/student/teacher/teacher_step3.dart';
-import 'package:my_school_app/features/add_user/screens/student/teacher/teacher_step4.dart';
-import 'package:my_school_app/features/add_user/screens/student/teacher/teacher_step5.dart';
+import 'package:my_school_app/features/add_user/screens/school_staff/school_staff_step0.dart';
+import 'package:my_school_app/features/add_user/screens/school_staff/school_staff_step1.dart';
+import 'package:my_school_app/features/add_user/screens/school_staff/school_staff_step2.dart';
+import 'package:my_school_app/features/add_user/screens/school_staff/school_staff_step3.dart';
+import 'package:my_school_app/features/add_user/screens/school_staff/school_staff_step4.dart';
+import 'package:my_school_app/features/add_user/screens/school_staff/school_staff_step5.dart';
 import 'package:my_school_app/utils/constants/colors.dart';
 import 'package:my_school_app/utils/constants/dynamic_colors.dart';
 import '../../../../../../utils/constants/sizes.dart';
+import '../../controllers/school_staff/add_school_staff0_controller.dart';
 
-class AddTeacher extends StatefulWidget {
+class AddSchoolStaff extends StatefulWidget {
   @override
-  State<AddTeacher> createState() => _AddTeacherState();
+  State<AddSchoolStaff> createState() => _AddSchoolStaffState();
 }
 
-class _AddTeacherState extends State<AddTeacher> {
-  final AddTeacher0Controller teacherController =
-      Get.put(AddTeacher0Controller());
+class _AddSchoolStaffState extends State<AddSchoolStaff> {
+  final AddSchoolStaff0Controller teacherController =
+      Get.put(AddSchoolStaff0Controller());
 
   // @override
   // void dispose() {
@@ -141,20 +141,20 @@ class _AddTeacherState extends State<AddTeacher> {
               },
               controller: teacherController.pageController,
               children: [
-                TeacherStep0Form(),
-                TeacherStep1Form(
+                SchoolStaffStep0Form(),
+                SchoolStaffStep1Form(
                   controller: teacherController.step1Controller,
                 ),
-                TeacherStep2Form(
+                SchoolStaffStep2Form(
                   controller: teacherController.step2Controller,
                 ),
-                TeacherStep3Form(
+                SchoolStaffStep3Form(
                   controller: teacherController.step3Controller,
                 ),
-                TeacherStep4Form(
+                SchoolStaffStep4Form(
                   controller: teacherController.step4Controller,
                 ),
-                TeacherStep5Form(
+                SchoolStaffStep5Form(
                   controller: teacherController.step5Controller,
                 ),
               ],

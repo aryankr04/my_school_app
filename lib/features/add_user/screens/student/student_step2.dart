@@ -206,29 +206,7 @@ class StudentStep2Form extends StatelessWidget {
               SizedBox(
                 height: SchoolSizes.lg,
               ),
-              SchoolDropdownFormField(
-                items: SchoolLists.yesNoList,
-                labelText: 'Transport Required',
-                isValidate: true,
-                selectedValue: controller.isTransportRequired.value,
-                onSelected: (value) {
-                  controller.isTransportRequired.value = value!;
-                },
-              ),
-              SizedBox(
-                height: SchoolSizes.lg,
-              ),
-              SchoolDropdownFormField(
-                items: SchoolLists.classList,
-                labelText: 'Vehicle No.',
-                selectedValue: controller.selectedVehicleNo.value,
-                onSelected: (value) {
-                  controller.selectedVehicleNo.value = value!;
-                },
-              ),
-              SizedBox(
-                height: SchoolSizes.lg,
-              ),
+
               SchoolDropdownFormField(
                 items: SchoolLists.schoolTransportModes,
                 labelText: 'Mode of Transport',
@@ -238,6 +216,19 @@ class StudentStep2Form extends StatelessWidget {
                   controller.selectedModeOfTransport.value = value!;
                 },
               ),
+              SizedBox(
+                height: SchoolSizes.lg,
+              ),
+              Obx(()=> controller.selectedModeOfTransport.value=='School Transport'?SchoolDropdownFormField(
+                items: SchoolLists.classList,
+                labelText: "Vehicle No",
+                isValidate: true,
+                selectedValue: controller.selectedVehicleNo.value,
+                onSelected: (value) {
+                  controller.selectedVehicleNo.value = value!;
+                },
+              ):SizedBox()),
+
             ],
           ),
         ),

@@ -45,14 +45,13 @@ class SchoolLists {
     "Justice House",
   ];
 
-
   static const List<String> dayList = [
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
   ];
   static const List<String> classList = [
     'LKG',
@@ -109,7 +108,7 @@ class SchoolLists {
   ];
 
 // Favorite Subjects
-  static  const List<String> favoriteSubjects = [
+  static const List<String> favoriteSubjects = [
     'Mathematics',
     'Science',
     'English Literature',
@@ -129,7 +128,7 @@ class SchoolLists {
   ];
 
 // Favorite Activities
-  static  const List<String> favoriteActivities = [
+  static const List<String> favoriteActivities = [
     'Reading',
     'Writing',
     'Playing an instrument',
@@ -149,10 +148,8 @@ class SchoolLists {
     'Other',
   ];
 
-
-
- static const List<String> schoolTransportModes = [
-    'School Bus',
+  static const List<String> schoolTransportModes = [
+    'School Transport',
     'Private Car',
     'Bicycle',
     'Walking',
@@ -165,7 +162,6 @@ class SchoolLists {
     'Parent Drop-off',
     // Add more modes if needed
   ];
-
 
   static const List<String> sectionList = [
     'A',
@@ -194,6 +190,77 @@ class SchoolLists {
     'Medical Leave',
     'Marriage Leave',
     'Vacation Leave',
+  ];
+  static const List<String> educationDegrees = [
+    // Basic and Intermediate Education
+    "10th Grade / Secondary School Certificate (SSC)",
+    "12th Grade / Higher Secondary Certificate (HSC) / Intermediate",
+
+    // General Education Levels
+    "High School Diploma",
+    "General Educational Development (GED)",
+    "Vocational Training",
+
+    // Undergraduate Degrees
+    "Bachelor of Technology (B.Tech)",
+    "Bachelor of Medicine, Bachelor of Surgery (MBBS)",
+    "Bachelor of Business Administration (BBA)",
+    "Bachelor of Computer Applications (BCA)",
+    "Bachelor of Science (B.Sc)",
+    "Bachelor of Arts (BA)",
+    "Bachelor of Commerce (B.Com)",
+    "Bachelor of Pharmacy (B.Pharm)",
+    "Bachelor of Education (B.Ed)",
+    "Bachelor of Fine Arts (BFA)",
+    "Bachelor of Architecture (B.Arch)",
+    "Bachelor of Law (LLB)",
+    "Bachelor of Dental Surgery (BDS)",
+    "Bachelor of Veterinary Science (B.V.Sc)",
+    "Bachelor of Nursing (B.Sc Nursing)",
+    "Bachelor of Design (B.Des)",
+    "Bachelor of Hotel Management (BHM)",
+    "Bachelor of Social Work (BSW)",
+    "Bachelor of Physiotherapy (BPT)",
+    "Bachelor of Management Studies (BMS)",
+
+    // Postgraduate Degrees
+    "Master of Business Administration (MBA)",
+    "Master of Technology (M.Tech)",
+    "Master of Science (M.Sc)",
+    "Master of Computer Applications (MCA)",
+    "Master of Arts (MA)",
+    "Master of Commerce (M.Com)",
+    "Master of Education (M.Ed)",
+    "Master of Social Work (MSW)",
+    "Master of Law (LLM)",
+    "Master of Fine Arts (MFA)",
+    "Master of Design (M.Des)",
+    "Master of Pharmacy (M.Pharm)",
+    "Master of Public Health (MPH)",
+    "Master of Hotel Management (MHM)",
+
+    // Doctoral Degrees
+    "Doctor of Philosophy (Ph.D.)",
+    "Doctor of Medicine (MD)",
+    "Doctor of Dental Surgery (DDS)",
+    "Doctor of Veterinary Medicine (DVM)",
+    "Doctor of Education (Ed.D)",
+    "Doctor of Science (D.Sc)",
+
+    // Professional Degrees
+    "Chartered Accountancy (CA)",
+    "Certified Public Accountant (CPA)",
+    "Company Secretary (CS)",
+    "Certified Financial Analyst (CFA)",
+    "Project Management Professional (PMP)",
+
+    // Diplomas and Certifications
+    "Diploma in Engineering",
+    "Diploma in Computer Science",
+    "Diploma in Business Management",
+    "Certificate in Data Science",
+    "Certificate in Digital Marketing",
+    "Certificate in Project Management",
   ];
   static const List<String> subjectList = [
     'Science',
@@ -246,45 +313,44 @@ class SchoolLists {
     'Atheism',
     'Other',
   ];
- static const List<String> indianStatesAndUTs = [
-   "Andaman and Nicobar Islands",
-   "Andhra Pradesh",
-   "Arunachal Pradesh",
-   "Assam",
-   "Bihar",
-   "Chandigarh",
-   "Chhattisgarh",
-   "Dadra and Nagar Haveli and Daman and Diu",
-   "Delhi",
-   "Goa",
-   "Gujarat",
-   "Haryana",
-   "Himachal Pradesh",
-   "Jammu and Kashmir",
-   "Jharkhand",
-   "Karnataka",
-   "Kerala",
-   "Ladakh",
-   "Lakshadweep",
-   "Madhya Pradesh",
-   "Maharashtra",
-   "Manipur",
-   "Meghalaya",
-   "Mizoram",
-   "Nagaland",
-   "Odisha",
-   "Puducherry",
-   "Punjab",
-   "Rajasthan",
-   "Sikkim",
-   "Tamil Nadu",
-   "Telangana",
-   "Tripura",
-   "Uttar Pradesh",
-   "Uttarakhand",
-   "West Bengal"
- ];
-
+  static const List<String> indianStatesAndUTs = [
+    "Andaman and Nicobar Islands",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chandigarh",
+    "Chhattisgarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu and Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Ladakh",
+    "Lakshadweep",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Puducherry",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ];
 
   static const List<String> categoryList = ['General', 'OBC', 'ST/SC', 'EWS'];
   static const List<String> genderList = [
@@ -292,6 +358,217 @@ class SchoolLists {
     'Female',
     'Prefer not to say'
   ];
+
+  static const List<Map<String, List<String>>> schoolStaffSkills = [
+    {
+      "Principal": [
+        "Leadership",
+        "Decision Making",
+        "Communication",
+        "Conflict Resolution",
+        "Strategic Planning",
+      ],
+    },
+    {
+      "Vice Principal/Assistant Principal": [
+        "Administration",
+        "Disciplinary Management",
+        "Team Collaboration",
+        "Problem Solving",
+        "Organizational Skills",
+      ],
+    },
+    {
+      "Director": [
+        "Policy Development",
+        "Strategic Vision",
+        "Budgeting",
+        "School Operations",
+        "Stakeholder Communication",
+      ],
+    },
+    {
+      "School Administrator": [
+        "Operational Management",
+        "Record Keeping",
+        "Event Coordination",
+        "Parent Communication",
+        "Scheduling",
+      ],
+    },
+    {
+      "Teacher": [
+        "Subject Knowledge",
+        "Classroom Management",
+        "Lesson Planning",
+        "Student Assessment",
+        "Communication",
+      ],
+    },
+    {
+      "Special Education Teacher": [
+        "Individualized Education Plans",
+        "Behavior Management",
+        "Patience",
+        "Adaptability",
+        "Collaboration",
+      ],
+    },
+    {
+      "Department Head": [
+        "Leadership",
+        "Curriculum Development",
+        "Mentorship",
+        "Team Building",
+        "Performance Review",
+      ],
+    },
+    {
+      "Guidance Counselor": [
+        "Counseling",
+        "Career Guidance",
+        "Emotional Support",
+        "Interpersonal Skills",
+        "Crisis Management",
+      ],
+    },
+    {
+      "School Nurse": [
+        "First Aid",
+        "Medical Knowledge",
+        "Patient Care",
+        "Health Education",
+        "Record Keeping",
+      ],
+    },
+    {
+      "Sports Coach": [
+        "Physical Training",
+        "Team Leadership",
+        "Motivational Skills",
+        "Sports Strategy",
+        "Disciplinary Skills",
+      ],
+    },
+    {
+      "Librarian": [
+        "Information Management",
+        "Research Skills",
+        "Literacy Promotion",
+        "Organizational Skills",
+        "Technology Skills",
+      ],
+    },
+    {
+      "School Secretary": [
+        "Clerical Skills",
+        "Scheduling",
+        "Communication",
+        "Multitasking",
+        "Time Management",
+      ],
+    },
+    {
+      "IT Support/Technician": [
+        "Technical Troubleshooting",
+        "Network Management",
+        "Hardware Maintenance",
+        "Software Installation",
+        "Cybersecurity Awareness",
+      ],
+    },
+    {
+      "Maintenance Staff": [
+        "Facility Maintenance",
+        "Basic Repair Skills",
+        "Cleanliness Standards",
+        "Safety Awareness",
+        "Reliability",
+      ],
+    },
+    {
+      "Security Guard": [
+        "Surveillance",
+        "Emergency Response",
+        "Situational Awareness",
+        "Patience",
+        "Physical Fitness",
+      ],
+    },
+    {
+      "Driver": [
+        "Defensive Driving",
+        "Safety Awareness",
+        "Time Management",
+        "Vehicle Maintenance",
+        "Communication",
+      ],
+    },
+  ];
+
+  static const List<String> schoolRoles = [
+    // Leadership and Administration
+    "Principal",
+    "Vice Principal/Assistant Principal",
+    "Director",
+    "School Administrator",
+
+    // Academic and Teaching Staff
+    "Teacher",
+    "Special Education Teacher",
+    "Department Head",
+    "Guidance Counselor",
+
+    // Student Support Services
+    "Guidance Counselor",
+    "School Nurse",
+    "Sports Coach",
+    "Librarian",
+
+    // Operations and Technical Support
+    "School Secretary",
+    "IT Support/Technician",
+    "Maintenance Staff",
+    "Security Guard",
+
+    // Transportation
+    "Driver",
+  ];
+// Leadership and Administration
+  static const List<String> leadershipAndAdministration = [
+    "Principal",
+    "Vice Principal/Assistant Principal",
+    "Director",
+    "School Administrator",
+  ];
+
+  // Academic and Teaching Staff
+  static const List<String> academicAndTeachingStaff = [
+    "Teacher",
+    "Special Education Teacher",
+    "Department Head",
+    "Guidance Counselor",
+  ];
+
+  // Student Support Services
+  static const List<String> studentSupportServices = [
+    "Guidance Counselor",
+    "School Nurse",
+    "Sports Coach",
+    "Librarian",
+  ];
+
+  // Operations and Technical Support
+  static const List<String> operationsAndTechnicalSupport = [
+    "School Secretary",
+    "IT Support/Technician",
+    "Maintenance Staff",
+    "Security Guard",
+    "Driver",
+  ];
+
+
+
   // Blood Group
   static const List<String> bloodGroupList = [
     'A+',
@@ -311,6 +588,194 @@ class SchoolLists {
   ];
 
   static const List<String> positionList = ['Security Guard', 'Peon', 'Other'];
+  static const List<String> nationality = [
+    "Indian",
+    "Afghan",
+    "Albanian",
+    "Algerian",
+    "American",
+    "Andorran",
+    "Angolan",
+    "Argentinian",
+    "Armenian",
+    "Australian",
+    "Austrian",
+    "Azerbaijani",
+    "Bahamian",
+    "Bahraini",
+    "Bangladeshi",
+    "Barbadian",
+    "Belarusian",
+    "Belgian",
+    "Belizean",
+    "Beninese",
+    "Bhutanese",
+    "Bolivian",
+    "Bosnian",
+    "Botswanan",
+    "Brazilian",
+    "British",
+    "Bruneian",
+    "Bulgarian",
+    "Burkinabe",
+    "Burmese",
+    "Burundian",
+    "Cambodian",
+    "Cameroonian",
+    "Canadian",
+    "Cape Verdean",
+    "Central African",
+    "Chadian",
+    "Chilean",
+    "Chinese",
+    "Colombian",
+    "Comoran",
+    "Congolese",
+    "Costa Rican",
+    "Croatian",
+    "Cuban",
+    "Cypriot",
+    "Czech",
+    "Danish",
+    "Djiboutian",
+    "Dominican",
+    "Dutch",
+    "East Timorese",
+    "Ecuadorian",
+    "Egyptian",
+    "Emirati",
+    "Equatorial Guinean",
+    "Eritrean",
+    "Estonian",
+    "Ethiopian",
+    "Fijian",
+    "Finnish",
+    "French",
+    "Gabonese",
+    "Gambian",
+    "Georgian",
+    "German",
+    "Ghanaian",
+    "Greek",
+    "Grenadian",
+    "Guatemalan",
+    "Guinean",
+    "Guyanese",
+    "Haitian",
+    "Honduran",
+    "Hungarian",
+    "Icelandic",
+    "Indonesian",
+    "Iranian",
+    "Iraqi",
+    "Irish",
+    "Israeli",
+    "Italian",
+    "Ivorian",
+    "Jamaican",
+    "Japanese",
+    "Jordanian",
+    "Kazakh",
+    "Kenyan",
+    "Kiribati",
+    "Kuwaiti",
+    "Kyrgyz",
+    "Laotian",
+    "Latvian",
+    "Lebanese",
+    "Liberian",
+    "Libyan",
+    "Liechtensteiner",
+    "Lithuanian",
+    "Luxembourger",
+    "Macedonian",
+    "Malagasy",
+    "Malawian",
+    "Malaysian",
+    "Maldivian",
+    "Malian",
+    "Maltese",
+    "Marshallese",
+    "Mauritanian",
+    "Mauritian",
+    "Mexican",
+    "Micronesian",
+    "Moldovan",
+    "Monacan",
+    "Mongolian",
+    "Montenegrin",
+    "Moroccan",
+    "Mozambican",
+    "Namibian",
+    "Nauruan",
+    "Nepalese",
+    "New Zealander",
+    "Nicaraguan",
+    "Nigerian",
+    "Nigerien",
+    "North Korean",
+    "Norwegian",
+    "Omani",
+    "Pakistani",
+    "Palauan",
+    "Palestinian",
+    "Panamanian",
+    "Papua New Guinean",
+    "Paraguayan",
+    "Peruvian",
+    "Philippine",
+    "Polish",
+    "Portuguese",
+    "Qatari",
+    "Romanian",
+    "Russian",
+    "Rwandan",
+    "Saint Lucian",
+    "Salvadoran",
+    "Samoan",
+    "San Marinese",
+    "Saudi Arabian",
+    "Senegalese",
+    "Serbian",
+    "Seychellois",
+    "Sierra Leonean",
+    "Singaporean",
+    "Slovak",
+    "Slovenian",
+    "Solomon Islander",
+    "Somali",
+    "South African",
+    "South Korean",
+    "Spanish",
+    "Sri Lankan",
+    "Sudanese",
+    "Surinamese",
+    "Swazi",
+    "Swedish",
+    "Swiss",
+    "Syrian",
+    "Taiwanese",
+    "Tajik",
+    "Tanzanian",
+    "Thai",
+    "Togolese",
+    "Tongan",
+    "Trinidadian",
+    "Tunisian",
+    "Turkish",
+    "Turkmen",
+    "Tuvaluan",
+    "Ugandan",
+    "Ukrainian",
+    "Uruguayan",
+    "Uzbek",
+    "Vanuatuan",
+    "Venezuelan",
+    "Vietnamese",
+    "Yemeni",
+    "Zambian",
+    "Zimbabwean",
+  ];
   static const List<String> schoolBoardList = [
     'CBSE',
     'ICSE',
@@ -333,7 +798,7 @@ class SchoolLists {
     'Senior Secondary (LKG - 12th Class)',
     'Undergraduate'
   ];
- static const List<String> hobbies = [
+  static const List<String> hobbies = [
     'Reading',
     'Writing',
     'Painting',

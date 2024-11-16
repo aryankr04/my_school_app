@@ -24,6 +24,7 @@ class StudentStep1Form extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: [
+
                   Expanded(
                     child: SchoolTextFormField(
                       labelText: 'First Name',

@@ -338,7 +338,7 @@ class _ManagementHomeState extends State<ManagementHome> {
               icon: Icons.receipt_outlined,
               text: 'Manage Routine',
               color: SchoolDynamicColors.colorSkyBlue,
-              destination: Routine(),
+              destination: MyRoutine(),
             ),
             SchoolIcon(
               icon: Icons.book,

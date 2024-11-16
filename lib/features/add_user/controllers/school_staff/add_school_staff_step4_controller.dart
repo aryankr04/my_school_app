@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TeacherStep4FormController extends GetxController {
+class SchoolStaffStep4FormController extends GetxController {
   final step4FormKey = GlobalKey<FormState>();
 
   final mobileNoController = TextEditingController();
@@ -9,6 +9,9 @@ class TeacherStep4FormController extends GetxController {
   final aadhaarNoController = TextEditingController();
   final addressController = TextEditingController();
   final pinCodeController = TextEditingController();
+  RxString selectedVehicleNo = RxString('');
+  RxString selectedModeOfTransport = RxString('');
+
   RxString selectedState = RxString('');
   RxString selectedDistrict = RxString('');
   RxString selectedCity = RxString('');

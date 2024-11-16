@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_school_app/features/add_user/controllers/student/add_student0_controller.dart';
 import 'package:my_school_app/utils/constants/sizes.dart';
 
 import '../../../../../utils/constants/dynamic_colors.dart';
 
 
-class TeacherStep0Form extends StatelessWidget {
+class SchoolStaffStep0Form extends StatelessWidget {
+  final List<String> stepNames = [
+    'Introduction to Teacher Registration',
+    'Basic Information',
+    'Employment Details',
+    'Educational Qualifications',
+    'Contact Information',
+    'Authentication'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -27,9 +35,7 @@ class TeacherStep0Form extends StatelessWidget {
             stepInfoRow(stepNames[3]),
             stepInfoRow(stepNames[4]),
             stepInfoRow(stepNames[5]),
-            stepInfoRow(stepNames[6]),
-            stepInfoRow(stepNames[7]),
-            stepInfoRow(stepNames[8]),
+
           ],
         ),
       ),

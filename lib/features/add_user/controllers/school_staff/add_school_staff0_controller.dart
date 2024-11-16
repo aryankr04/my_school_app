@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_school_app/features/add_user/controllers/teacher/add_teacher_step1_controller.dart';
 
 import '../../../../../../data/services/firebase_for_school.dart';
-import 'add_teacher_step2_controller.dart';
-import 'add_teacher_step3_controller.dart';
-import 'add_teacher_step4_controller.dart';
-import 'add_teacher_step5_controller.dart';
+import 'add_school_staff_step1_controller.dart';
+import 'add_school_staff_step2_controller.dart';
+import 'add_school_staff_step3_controller.dart';
+import 'add_school_staff_step4_controller.dart';
+import 'add_school_staff_step5_controller.dart';
 
 final List<String> stepNames = [
-  'Introduction to Teacher Registration',
+  'Introduction to School Staff Registration',
   'Basic Information',
-  'Academic Information',
+  'Employment Details',
   'Educational Qualifications',
   'Contact Information',
   'Authentication'
 ];
 
-class AddTeacher0Controller extends GetxController {
+class AddSchoolStaff0Controller extends GetxController {
   final FirebaseForSchool firebaseFunction = FirebaseForSchool();
-  final TeacherStep1FormController step1Controller =
-      TeacherStep1FormController();
-  final TeacherStep2FormController step2Controller =
-      TeacherStep2FormController();
-  final TeacherStep3FormController step3Controller =
-      TeacherStep3FormController();
-  final TeacherStep4FormController step4Controller =
-      TeacherStep4FormController();
-  final TeacherStep5FormController step5Controller =
-      TeacherStep5FormController();
+  final SchoolStaffStep1FormController step1Controller =
+      SchoolStaffStep1FormController();
+  final SchoolStaffStep2FormController step2Controller =
+      SchoolStaffStep2FormController();
+  final SchoolStaffStep3FormController step3Controller =
+      SchoolStaffStep3FormController();
+  final SchoolStaffStep4FormController step4Controller =
+      SchoolStaffStep4FormController();
+  final SchoolStaffStep5FormController step5Controller =
+      SchoolStaffStep5FormController();
 
   RxInt activeStep = 0.obs;
   late final PageController pageController =

@@ -59,6 +59,8 @@ dependencies:
   flutter_native_splash: ^2.4.2
   sms_autofill: ^2.4.0
   timer_count_down: ^2.2.2
+  firebase_app_check: ^0.2.2+7
+
   #--------------- ./ PACKAGES END ------------------#
 
 dev_dependencies:

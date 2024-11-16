@@ -45,6 +45,7 @@ class SchoolHelperFunctions {
   static void showSnackBar(String message, {Color? backgroundColor}) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(
       SnackBar(
+
         backgroundColor: backgroundColor ?? SchoolDynamicColors.activeBlue,
         content: Text(
           message,
@@ -102,43 +103,51 @@ class SchoolHelperFunctions {
 
 
   static void showLoadingOverlay() {
-    showDialog(
-      context: Get.context!,
-      builder: (_) => PopScope(
-        canPop: false,
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          color: Colors.black.withOpacity(0.1),
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Loading...',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.blueAccent,
+    if (!(Get.isDialogOpen ?? false)) {
+      showDialog(
+        context: Get.context!,
+        builder: (_) => WillPopScope(
+          onWillPop: () async => false, // Prevent dialog dismissal
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Colors.black.withOpacity(0.1),
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    const SizedBox(height: 16.0),
+                    Text(
+                      'Loading...',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.blueAccent,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-      barrierDismissible: false,
-    );
+        barrierDismissible: false,
+      );
+    }
   }
 
+  // Hide loading overlay
+  static void hideLoadingOverlay() {
+    if (Get.isDialogOpen ?? false) {
+      Get.back();
+    }
+  }
   static String extractValueInBrackets(String input) {
     RegExp regex = RegExp(r'\((.*?)\)');
     RegExpMatch? match = regex.firstMatch(input);

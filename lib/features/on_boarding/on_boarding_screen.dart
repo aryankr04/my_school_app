@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:my_school_app/features/authentication/screens/create_account.dart';
 import 'package:my_school_app/utils/constants/colors.dart';
+import 'package:my_school_app/utils/constants/dynamic_colors.dart';
 import 'package:my_school_app/utils/constants/sizes.dart';
 import 'package:my_school_app/utils/constants/text_strings.dart';
 import 'package:my_school_app/utils/helpers/helper_functions.dart';
@@ -237,7 +238,7 @@ class OnboardingPage extends StatelessWidget {
               SizedBox(height: SchoolSizes.sm),
               Text(
                 description,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: SchoolDynamicColors.subtitleTextColor,fontWeight: FontWeight.w500,fontSize: 15),
                 textAlign: TextAlign.center,
               ),
               if (title ==

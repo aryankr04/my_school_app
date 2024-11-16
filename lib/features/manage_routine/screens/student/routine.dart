@@ -2,24 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:my_school_app/features/manage_routine/screens/student/timetable.dart';
 import 'package:my_school_app/features/user/student/syllabus_and_routine/syllabus.dart';
 import 'package:my_school_app/utils/constants/lists.dart';
 import 'package:my_school_app/utils/constants/sizes.dart';
-import 'package:shimmer/shimmer.dart';
 
-import '../../../../../../utils/constants/dynamic_colors.dart';
-import '../../models/class_routine.dart';
-import '../../widgets/timeline_item.dart';
-import '../management/add_student_routine.dart';
+import '../../models/class_routine0.dart';
 
-class Routine extends StatefulWidget {
-  const Routine({Key? key});
+class MyRoutine extends StatefulWidget {
+  const MyRoutine({Key? key});
 
   @override
-  State<Routine> createState() => _RoutineState();
+  State<MyRoutine> createState() => _MyRoutineState();
 }
 
-class _RoutineState extends State<Routine> {
+class _MyRoutineState extends State<MyRoutine> {
   List<String> dayList = SchoolLists.dayList;
   List<String> classList = SchoolLists.classList;
   List<String> sectionList = SchoolLists.sectionList;
@@ -28,102 +25,191 @@ class _RoutineState extends State<Routine> {
   RxString selectedSection = ''.obs;
   RxString selectedDay = DateFormat('EEE').format(DateTime.now()).obs;
 
-  RxList<ClassRoutine> classRoutineList = <ClassRoutine>[].obs;
 
   RxBool isLoading = false.obs;
+
+
+// Function to import DayEvents
+  final Rx<Routine?> routine = Rx<Routine?>(null);
+  final RxList<DayEvent> dayEvents = <DayEvent>[].obs;
+// Convert list of DayEvent to a list of maps
+
+// Step 2: Send the data to Firebase Firestore
+  Future<void> sendRoutineToFirebase(String schoolId, String className, String section) async {
+    try {
+      // Create reference to Firestore collection
+      final List<DayEvent> dayEvents = [
+        DayEvent(
+          period: 'Start',
+          subject: null, // Not a class period, so subject is null
+          teacher: 'Mr. Smith',
+          startTime: '8:00 AM',
+          endTime: '8:00 AM',
+        ),
+        DayEvent(
+          period: 'Assembly',
+          subject: null, // Not a class period, so subject is null
+          teacher: null, // No teacher for assembly
+          startTime: '8:00 AM',
+          endTime: '8:30 AM',
+        ),
+        DayEvent(
+          period: 'Class',
+          subject: 'Data Structure',
+          teacher: 'Amit Shukla',
+          startTime: '8:30 AM',
+          endTime: '9:30 AM',
+        ),
+        DayEvent(
+          period: 'Class',
+          subject: 'English Class',
+          teacher: 'Ms. Johnson',
+          startTime: '9:30 AM',
+          endTime: '10:30 AM',
+        ),
+        DayEvent(
+          period: 'Class',
+          subject: 'Science Class',
+          teacher: 'Dr. Williams',
+          startTime: '10:30 AM',
+          endTime: '11:30 AM',
+        ),
+        DayEvent(
+          period: 'Break',
+          subject: null, // Break, no subject
+          teacher: null, // No teacher for break
+          startTime: '11:30 AM',
+          endTime: '12:00 PM',
+        ),
+        DayEvent(
+          period: 'Class',
+          subject: 'History Class',
+          teacher: 'Mr. Brown',
+          startTime: '12:00 PM',
+          endTime: '1:00 PM',
+        ),
+        DayEvent(
+          period: 'Class',
+          subject: 'Physical Education',
+          teacher: 'Coach Taylor',
+          startTime: '1:00 PM',
+          endTime: '2:00 PM',
+        ),
+        DayEvent(
+          period: 'Departure',
+          subject: null, // No subject for departure
+          teacher: null, // No teacher for departure
+          startTime: '2:00 PM',
+          endTime: '', // No end time for departure
+        ),
+      ];
+
+      List<Map<String, dynamic>> dayEventsMap = dayEvents.map((event) => event.toMap()).toList();
+
+      CollectionReference schoolClasses = FirebaseFirestore.instance.collection('schoolClasses');
+
+      // Add routine data (example: routine is a field within the document)
+      await schoolClasses
+          .where('schoolId', isEqualTo: schoolId)
+          .where('className', isEqualTo: className)
+          .where('section', isEqualTo: section)
+          .limit(1)
+          .get()
+          .then((querySnapshot) async {
+        if (querySnapshot.docs.isNotEmpty) {
+          DocumentSnapshot schoolClassDoc = querySnapshot.docs.first;
+          String documentId = schoolClassDoc.id;
+
+          // Update the document with the routine field
+          await schoolClasses.doc(documentId).update({
+            'routine': {
+              'days': {
+                // Assuming this is the data for a specific day (for example, Monday)
+                'Monday': dayEventsMap, // You can map this to any day (e.g., 'Monday', 'Tuesday', etc.)
+              }
+            }
+          });
+
+          print("Routine data sent to Firebase successfully.");
+        } else {
+          print("School class not found.");
+        }
+      });
+    } catch (e) {
+      print("Error sending routine to Firebase: $e");
+    }
+  }
+  void importDayEvents() {
+    if (routine.value != null) {
+      // Clear existing dayEvents list
+      dayEvents.clear();
+
+      // Iterate over all days in the routine and collect DayEvent objects
+      routine.value!.days.forEach((day, events) {
+        dayEvents.addAll(events); // Add all events for the current day
+      });
+
+      print("DayEvents imported: ${dayEvents.length}");
+    } else {
+      print("Routine is null; no data to import.");
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
   }
 
-  void fetchAndAssignRoutine(String sectionId, String day) {
-    isLoading(true);
-    fetchRoutineBySectionIdAndDay(sectionId, day).then((routines) {
-      classRoutineList.assignAll(routines);
-      classRoutineList.sort((a, b) {
-        // First compare based on time
-        int timeComparison = a.startsAt.compareTo(b.startsAt);
-        if (timeComparison != 0) {
-          return timeComparison; // If times are different, return the comparison result
-        } else {
-          // If times are equal, compare based on eventType
-          if (a.eventType == 'Start' &&
-              (b.eventType == 'Class' || b.eventType == 'Departure')) {
-            return -1; // 'Start' comes before 'Class' and 'Departure'
-          } else if (b.eventType == 'Start' &&
-              (a.eventType == 'Class' || a.eventType == 'Departure')) {
-            return 1; // 'Class' and 'Departure' come after 'Start'
-          } else {
-            // If both have the same eventType or neither is 'Start', return 0
-            return 0;
-          }
-        }
-      });
-      print(classRoutineList.length);
-      isLoading(false);
-    }).catchError((error) {
-      print('Error fetching and assigning routines: $error');
-    });
-  }
-
-  Future<List<ClassRoutine>> fetchRoutineBySectionIdAndDay(
-      String sectionId, String day) async {
+  Future<void> fetchRoutineBySchoolClass(
+      String schoolId, String className, String section) async {
     try {
-      CollectionReference routineCollection =
-          FirebaseFirestore.instance.collection('routine');
+      isLoading.value = true;
 
-      QuerySnapshot querySnapshot = await routineCollection
-          .where('sectionId', isEqualTo: sectionId)
-          .where('day', isEqualTo: day)
-          .get();
-
-      List<ClassRoutine> routines = querySnapshot.docs
-          .map((doc) => ClassRoutine.fromSnapshot(doc))
-          .toList();
-
-      return routines;
-    } catch (e) {
-      print('Error fetching routines: $e');
-      return [];
-    }
-  }
-
-  void fetchRoutineAndAssign() async {
-    String? sectionId = await findSectionId(
-        'SCH0000000001', selectedClass.value, selectedSection.value);
-    if (sectionId != null) {
-      fetchAndAssignRoutine(sectionId, selectedDay.value);
-    } else {
-      // Handle the case where sectionId is not found
-      print('Section ID not found.');
-    }
-  }
-
-  Future<String?> findSectionId(
-      String schoolId, String className, String sectionName) async {
-    try {
-      // Access the Firestore instance
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-      // Query the Firestore collection based on schoolId, className, and sectionName
-      QuerySnapshot querySnapshot = await firestore
-          .collection('sections')
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('schoolClasses')
           .where('schoolId', isEqualTo: schoolId)
           .where('className', isEqualTo: className)
-          .where('sectionName', isEqualTo: sectionName)
+          .where('section', isEqualTo: section)
+          .limit(1)
           .get();
 
-      // If the section is found, return its sectionId
       if (querySnapshot.docs.isNotEmpty) {
-        return querySnapshot.docs.first.id;
+        DocumentSnapshot schoolClassDoc = querySnapshot.docs.first;
+
+        if (schoolClassDoc['routine'] != null) {
+          routine.value =
+              Routine.fromMap(schoolClassDoc['routine'], schoolClassDoc.id);
+
+          // Print routine data after fetching and setting in desired format
+          print("Routine fetched:\n");
+
+          // Ensure routine value is not null and iterate over the days
+          if (routine.value != null) {
+            routine.value!.days.forEach((day, events) {
+              print("$day:");
+
+              // Iterate over the list of events for the current day
+              for (var event in events) {
+                // Print each event in the format "1: Math by Mr. A (09:00 AM - 09:45 AM)"
+                print("${event.period}: ${event.subject} by ${event.teacher} (${event.startTime} - ${event.endTime})");
+              }
+              print(""); // Add a blank line for better readability
+            });
+          }
+        } else {
+          print("Routine field not found in the document.");
+          routine.value = null;
+        }
       } else {
-        // If the section is not found, return null
-        return null;
+        print("No matching school class found.");
+        routine.value = null;
       }
     } catch (e) {
-      // Handle any errors that occur during the process
-      print('Error finding sectionId: $e');
-      return null;
+      print("Error fetching routine: $e");
+      routine.value = null;
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -161,149 +247,112 @@ class _RoutineState extends State<Routine> {
               scrollDirection: Axis.horizontal,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.start, // Align items to the start
+                  crossAxisAlignment: CrossAxisAlignment
+                      .center, // Align items vertically to center
                   children: [
-                    dialogSelector(selectedClass, classList, 'Class', (val) {
-                      if (selectedClass.value != '' &&
-                          selectedSection.value != '' &&
-                          selectedDay.value != '') {
-                        fetchRoutineAndAssign();
-                      }
-                    }),
+                    dialogSelector(selectedClass, classList, 'Class',
+                            (val) async {
+                          if (selectedClass.value.isNotEmpty &&
+                              selectedSection.value.isNotEmpty &&
+                              selectedDay.value.isNotEmpty) {
+                            await fetchRoutineBySchoolClass('SCH0000000001',
+                                selectedClass.value, selectedSection.value);
+                            importDayEvents();
+
+                          }
+                        }),
                     SizedBox(
                       width: SchoolSizes.md,
                     ),
-                    dialogSelector(selectedSection, sectionList, 'Sec', (val) {
-                      if (selectedClass.value != '' &&
-                          selectedSection.value != '' &&
-                          selectedDay.value != '') {
-                        fetchRoutineAndAssign();
-                      }
-                    }),
+                    dialogSelector(selectedSection, sectionList, 'Sec',
+                            (val) async {
+                          if (selectedClass.value.isNotEmpty &&
+                              selectedSection.value.isNotEmpty &&
+                              selectedDay.value.isNotEmpty) {
+                            await fetchRoutineBySchoolClass('SCH0000000001',
+                                selectedClass.value, selectedSection.value);
+                            importDayEvents();
+
+                          }
+                        }),
                     SizedBox(
                       width: SchoolSizes.md,
                     ),
                     dialogSelector(selectedDay, SchoolLists.dayList, 'Day',
-                        (val) {
-                      if (selectedClass.value != '' &&
-                          selectedSection.value != '' &&
-                          selectedDay.value != '') {
-                        fetchRoutineAndAssign();
-                      }
-                    }),
+                            (val) async {
+                          if (selectedClass.value.isNotEmpty &&
+                              selectedSection.value.isNotEmpty &&
+                              selectedDay.value.isNotEmpty) {
+                            await fetchRoutineBySchoolClass('SCH0000000001',
+                                selectedClass.value, selectedSection.value);
+                            importDayEvents();
+
+                          }
+                        }),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: SchoolSizes.md),
-            Obx(() => Container(
-                  margin: EdgeInsets.all(SchoolSizes.lg),
-                  padding: EdgeInsets.all(SchoolSizes.md),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                    color: SchoolDynamicColors.backgroundColorWhiteDarkGrey,
-                    borderRadius:
-                        BorderRadius.circular(SchoolSizes.cardRadiusSm),
-                    border:
-                        Border.all(width: 0.5, color: SchoolDynamicColors.borderColor),
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "$selectedDay's Routine",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: SchoolDynamicColors.primaryColor),
-                            ),
-                            Text(
-                              "Class $selectedClass $selectedSection",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: SchoolSizes.spaceBtwSections,
-                      ),
-                      Container(
-                        child: Obx(() {
-                          if (isLoading.value) {
-                            return _buildShimmerClassRoutine(); // Show shimmer when loading
-                          } else {
-                            return Wrap(
-                              children: classRoutineList.map((classRoutine) {
-                                bool isMatch = checkMatch(classRoutineList, classRoutine);
-
-                                return TimelineItem(
-                                  isStudent: true,
-                                  isWrite: false,
-                                  id: classRoutine.id,
-                                  startsAt: classRoutine.startsAt,
-                                  subject: classRoutine.subject,
-                                  classTeacherName:
-                                      classRoutine.classTeacherName,
-                                  itemType: getItemType(classRoutine.eventType),
-                                  endsAt: classRoutine.endsAt, isMatch: isMatch,
-                                );
-                              }).toList(),
-                            );
-                          }
-                        }),
-                      ),
-                    ],
-                  ),
-                ))
+            // const SizedBox(height: SchoolSizes.md),
+            TextButton(onPressed: (){sendRoutineToFirebase('SCH0000000001', '4', 'A');}, child: Text('Send')),
+            Padding(
+              padding: const EdgeInsets.all(SchoolSizes.lg),
+              child: Obx(
+                    () => TimelineItem(
+                  isWrite: false,
+                  isMatch: true,
+                  events: routine.value?.days[selectedDay.value] ?? [],
+                  dayName: selectedDay.value,
+                  isStudent: true,
+                  onDelete: (int index) {
+                    // Call delete function to update routine in Routine0
+                    deleteEvent(index);
+                  },
+                  onEdit: (int index, DayEvent updatedEvent) {
+                    // Call edit function to update routine in Routine0
+                    editEvent(index, updatedEvent);
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+  void deleteEvent(int index) {
+    if (routine.value != null) {
+      // Get the current list of events for the selected day
+      List<DayEvent> events = List.from(routine.value!.days[selectedDay.value] ?? []);
 
-  Widget _buildShimmerClassRoutine() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[100]!,
-      highlightColor: Colors.grey[100]!,
-      child: SingleChildScrollView(
-        child: Column(
-          children: List.generate(
-            5, // Number of shimmering items
-            (index) => Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    vertical: SchoolSizes.md, horizontal: SchoolSizes.md),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusMd),
-                  color: SchoolDynamicColors.backgroundColorWhiteDarkGrey,
-                ),
-                height: 80,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+      // Remove the event at the specified index
+      events.removeAt(index);
+
+      // Update the routine's day events with the modified list
+      routine.value!.days[selectedDay.value] = events;
+
+      // Trigger a UI update by using RxState (since routine is an Rx)
+      routine.refresh();
+    }
+  }
+
+  void editEvent(int index, DayEvent updatedEvent) {
+    if (routine.value != null) {
+      // Get the current list of events for the selected day
+      List<DayEvent> events = List.from(routine.value!.days[selectedDay.value] ?? []);
+
+      // Replace the event at the specified index with the updated event
+      events[index] = updatedEvent;
+
+      // Update the routine's day events with the modified list
+      routine.value!.days[selectedDay.value] = events;
+
+      // Trigger a UI update by using RxState (since routine is an Rx)
+      routine.refresh();
+    }
   }
 }

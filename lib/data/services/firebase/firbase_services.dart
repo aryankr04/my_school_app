@@ -140,19 +140,28 @@ class FirebaseService {
     }
   }
 
-  Future<QuerySnapshot> getDocumentsByCondition({
+  Future<QuerySnapshot> getDocumentsByConditions({
     required String collection,
-    required String field,
-    required dynamic condition,
+    required List<Map<String, dynamic>> conditions,
   }) async {
     try {
-      return await _firestore.collection(collection).where(field, isEqualTo: condition).get();
+      Query<Map<String, dynamic>> query = _firestore.collection(collection);
+
+      // Apply each condition to the query
+      for (var condition in conditions) {
+        String field = condition['field'];
+        dynamic value = condition['value'];
+        query = query.where(field, isEqualTo: value);
+      }
+
+      return await query.get();
     } catch (e) {
       rethrow;
     }
   }
 
-   Future<String?> generateNewIdWithPrefix(
+
+  Future<String?> generateNewIdWithPrefix(
       String prefix, String collection) async {
     try {
       final QuerySnapshot querySnapshot =

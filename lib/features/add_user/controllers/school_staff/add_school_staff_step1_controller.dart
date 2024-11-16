@@ -5,28 +5,19 @@ import 'package:get/get.dart';
 import 'package:my_school_app/utils/helpers/helper_functions.dart';
 
 import '../../../../../../data/services/firebase_for_school.dart';
+import '../../../../common/widgets/multi_selection_widget.dart';
 import '../../../../utils/constants/dynamic_colors.dart';
 import '../../../../utils/constants/lists.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../user/management/noticeboard/add_notice_new.dart';
 
-class TeacherStep1FormController extends GetxController {
+class SchoolStaffStep1FormController extends GetxController {
   FirebaseForSchool firebaseFunction = FirebaseForSchool();
 
   final GlobalKey<FormState> step1FormKey = GlobalKey<FormState>();
 
-  TextEditingController selectedSchoolController = TextEditingController();
+  TextEditingController schoolController = TextEditingController();
   RxList<Map<String, dynamic>> schoolList = <Map<String, dynamic>>[].obs;
-
-  Future<void> fetchSchools(String query) async {
-    try {
-      final schools = await firebaseFunction.fetchSchools(query);
-      schoolList.assignAll(schools);
-    } catch (e) {
-      print('Error fetching schools: $e');
-    }
-  }
-
 
   TextEditingController nameController = TextEditingController();
 
@@ -36,15 +27,27 @@ class TeacherStep1FormController extends GetxController {
   Rx<String> selectedNationality = Rx<String>('');
   Rx<String> selectedReligion = Rx<String>('');
   Rx<String> selectedCategory = Rx<String>('');
+  Rx<String> selectedBloodGroup = Rx<String>('');
+  RxString selectedHeightFt = RxString('');
+  RxString selectedHeightInch = RxString('');
+  Rx<String> selectedMaritalStatus = Rx<String>('');
 
   RxList<String> selectedLanguages = <String>[].obs;
   TextEditingController languagesController = TextEditingController();
 
   @override
   void onClose() {
-
     languagesController.dispose();
     super.onClose();
+  }
+
+  Future<void> fetchSchools(String query) async {
+    try {
+      final schools = await firebaseFunction.fetchSchools(query);
+      schoolList.assignAll(schools);
+    } catch (e) {
+      print('Error fetching schools: $e');
+    }
   }
 
   Future<void> showLanguagesSelectionDialog() async {
@@ -91,10 +94,9 @@ class TeacherStep1FormController extends GetxController {
                       decoration: BoxDecoration(
                         color: SchoolDynamicColors.activeBlue,
                         borderRadius:
-                        BorderRadius.circular(SchoolSizes.cardRadiusXs),
+                            BorderRadius.circular(SchoolSizes.cardRadiusXs),
                       ),
-                      alignment:
-                      Alignment.center,
+                      alignment: Alignment.center,
                       child: Text(
                         'OK',
                         style: Theme.of(context)
@@ -113,9 +115,7 @@ class TeacherStep1FormController extends GetxController {
     );
   }
 
-
   bool isFormValid() {
     return step1FormKey.currentState?.validate() ?? false;
   }
-
 }

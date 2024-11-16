@@ -1,56 +1,53 @@
-import 'dart:io';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:my_school_app/utils/constants/sizes.dart';
 import 'package:get/get.dart';
+import 'package:my_school_app/common/widgets/dropdown_form_feild.dart';
+import 'package:my_school_app/utils/constants/sizes.dart';
+import 'package:my_school_app/common/widgets/date_picker.dart';
 
-import '../../../common/widgets/dropdown_form_feild.dart';
-import '../../../common/widgets/image_picker.dart';
-import '../../../common/widgets/text_form_feild.dart';
-import '../../../utils/constants/dynamic_colors.dart';
-import '../../../utils/constants/lists.dart';
-import '../../../common/widgets/date_picker.dart';
-import '../controllers/add_driver_controller.dart';
+import '../../../../../../common/widgets/text_form_feild.dart';
+import '../../../../../../utils/constants/lists.dart';
+import '../../../../../common/widgets/image_picker.dart';
+import '../../../../../utils/constants/dynamic_colors.dart';
+import '../../controllers/school_staff/add_school_staff_step1_controller.dart';
 
-class AddDriver extends StatelessWidget {
-  final AddDriverController controller = Get.put(AddDriverController());
+class SchoolStaffStep1Form extends StatelessWidget {
+  final SchoolStaffStep1FormController controller;
+
+  const SchoolStaffStep1Form({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Driver'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(SchoolSizes.lg),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(SchoolSizes.defaultSpace),
         child: Form(
-          key: controller.addDriverFormKey,
+          key: controller.step1FormKey,
           child: Column(
-            children: [
-              ImagePickerWidget(
-                image: controller.directorImage.value,
-                onImageSelected: (File value) {
-                  controller.directorImage.value = value;
-                },
-              ),
-
-              const SizedBox(height: SchoolSizes.defaultSpace),
-
+            children: <Widget>[
+              // ImagePickerWidget(
+              //   image: controller.teacherImage.value,
+              //   onImageSelected: (File value) {
+              //     controller.teacherImage.value = value;
+              //   },
+              // ),
+              // const SizedBox(height: SchoolSizes.defaultSpace),
               AutoCompleteTextField<Map<String, dynamic>>(
                 key: GlobalKey(),
-                controller: controller.selectedSchoolController,
+                controller: controller.schoolController,
                 clearOnSubmit: false,
                 suggestions: controller.schoolList,
                 itemFilter: (item, query) {
-                  return item["schoolName"].toLowerCase().contains(
-                      query?.toLowerCase() ?? ''); // Handle null query
+                  return item["schoolName"]
+                      .toLowerCase()
+                      .contains(query?.toLowerCase() ?? ''); // Handle null query
                 },
                 itemSorter: (a, b) {
                   return a["schoolName"].compareTo(b["schoolName"]);
                 },
                 itemSubmitted: (item) {
-                  controller.selectedSchoolController.text = item["schoolId"];
+                  controller.schoolController.text = item["schoolId"];
                 },
                 itemBuilder: (context, item) {
                   return Container(
@@ -105,7 +102,7 @@ class AddDriver extends StatelessWidget {
                       color: SchoolDynamicColors.iconColor,
                       icon: Icon(Icons.cancel_outlined),
                       onPressed: () {
-                        controller.selectedSchoolController.clear();
+                        controller.schoolController.clear();
                       },
                     )),
                 textChanged: (query) {
@@ -114,9 +111,9 @@ class AddDriver extends StatelessWidget {
                       // Fetch schools based on the query
                       controller.fetchSchools(query);
                       // Filter the suggestions based on the query
-                      controller.schoolList.assignAll(controller.schoolList
-                          .where((school) =>
-                              school["schoolName"] != null &&
+                      controller.schoolList.assignAll(controller.schoolList.where(
+                              (school) =>
+                          school["schoolName"] != null &&
                               school["schoolName"]
                                   .toLowerCase()
                                   .contains(query.toLowerCase())));
@@ -127,19 +124,21 @@ class AddDriver extends StatelessWidget {
                   }
                 },
               ),
-              const SizedBox(height: SchoolSizes.defaultSpace),
-              SchoolTextFormField(
-                labelText: 'Name',
-                prefixIcon: Icons.person,
-                keyboardType: TextInputType.name,
-                controller: controller.nameController,
+              const SizedBox(
+                height: SchoolSizes.defaultSpace,
               ),
-              const SizedBox(height: SchoolSizes.defaultSpace),
+
+              SchoolTextFormField(
+                controller: controller.nameController,
+                labelText: 'Name',
+                keyboardType: TextInputType.name,
+              ),
+              const SizedBox(
+                height: SchoolSizes.defaultSpace,
+              ),
               DatePickerField(
-                initialDate: controller.dateOfBirthController.value,
-                onDateChanged: (date) {
-                  controller.dateOfBirthController.value = date;
-                },
+                initialDate: controller.dateOfBirth.value,
+                onDateChanged: controller.dateOfBirth,
                 firstDate: DateTime(2000),
                 labelText: 'Date of Birth',
                 lastDate: DateTime.now(),
@@ -148,68 +147,96 @@ class AddDriver extends StatelessWidget {
               SchoolDropdownFormField(
                 items: SchoolLists.genderList,
                 labelText: 'Gender',
-                prefixIcon: Icons.transgender,
                 isValidate: true,
-                onSelected: (value) {
-                  controller.selectedGender.value = value;
+                onSelected: (val) {
+                  controller.selectedGender.value = val;
                 },
               ),
               const SizedBox(height: SchoolSizes.defaultSpace),
-              SchoolTextFormField(
-                labelText: 'Mobile No.',
-                prefixIcon: Icons.phone_android_rounded,
-                keyboardType: TextInputType.phone,
-                controller: controller.mobileNumberController,
-                validator: MultiValidator([
-                  RequiredValidator(errorText: 'Please enter mobile number'),
-                  LengthRangeValidator(
-                    min: 10,
-                    max: 10,
-                    errorText: 'Please enter a 10-digit mobile no.',
-                  ),
-                ]),
-              ),
-              const SizedBox(height: SchoolSizes.defaultSpace),
-              SchoolTextFormField(
-                labelText: 'Address',
-                prefixIcon: Icons.email,
-                keyboardType: TextInputType.emailAddress,
-                controller: controller.addressController,
-                validator: RequiredValidator(errorText: 'Please enter address'),
-              ),
-              const SizedBox(height: SchoolSizes.defaultSpace),
-              SchoolTextFormField(
-                labelText: 'Qualification',
-                prefixIcon: Icons.school,
-                keyboardType: TextInputType.name,
-                controller: controller.qualificationController,
+
+              SchoolDropdownFormField(
+                items: SchoolLists.nationality,
+                labelText: 'Nationality',
+                isValidate: true,
+                selectedValue: controller.selectedNationality.value,
+                onSelected: (value) {
+                  controller.selectedNationality.value = value!;
+                },
               ),
               const SizedBox(height: SchoolSizes.defaultSpace),
               SchoolDropdownFormField(
-                labelText: 'Select Vehicle',
-                items: SchoolLists.positionList,
+                items: SchoolLists.religions,
+                labelText: 'Religion',
+                isValidate: true,
+                selectedValue: controller.selectedReligion.value,
                 onSelected: (value) {
-                  controller.selectedVehicle.value = value;
+                  controller.selectedReligion.value = value!;
                 },
               ),
               const SizedBox(height: SchoolSizes.defaultSpace),
-              SchoolTextFormField(
-                labelText: 'Licence No.',
-                prefixIcon: Icons.numbers,
-                keyboardType: TextInputType.name,
-                controller: controller.licenceNumberController,
-              ),
-              const SizedBox(height: SchoolSizes.defaultSpace),
-              ElevatedButton(
-                onPressed: () {
-                  controller.isFormValid()
-                      ? controller.addDriverToFirebase()
-                      : controller.addDriverToFirebase();
+              SchoolDropdownFormField(
+                items: SchoolLists.categoryList,
+                labelText: 'Category',
+                isValidate: true,
+                selectedValue: controller.selectedCategory.value,
+                onSelected: (value) {
+                  controller.selectedCategory.value = value!;
                 },
-                style: ElevatedButton.styleFrom(),
-                child: const Text('Add'),
               ),
               const SizedBox(height: SchoolSizes.defaultSpace),
+              SchoolDropdownFormField(
+                items: SchoolLists.bloodGroupList,
+                labelText: 'Blood Group',
+                isValidate: true,
+                selectedValue: controller.selectedBloodGroup.value,
+                onSelected: (value) {
+                  controller.selectedBloodGroup.value = value!;
+                },
+              ),
+              const SizedBox(height: SchoolSizes.defaultSpace),
+              Row(
+                children: [
+                  Expanded(
+                    child: SchoolDropdownFormField(
+                      items: SchoolLists.heightFtList,
+                      labelText: 'Height (Feet)',
+                      hintText: 'Select Feet',
+                      isValidate: true,
+                      selectedValue: controller.selectedHeightFt.value,
+                      onSelected: (value) {
+                        controller.selectedHeightFt.value = value!;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    width: SchoolSizes.defaultSpace,
+                  ),
+                  Expanded(
+                    child: SchoolDropdownFormField(
+                      items: SchoolLists.heightInchList,
+                      labelText: 'Height(Inch)',
+                      hintText: 'Select Inch',
+                      isValidate: true,
+                      selectedValue: controller.selectedHeightInch.value,
+                      onSelected: (value) {
+                        controller.selectedHeightInch.value = value!;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: SchoolSizes.defaultSpace),
+
+              SchoolDropdownFormField(
+                items: SchoolLists.bloodGroupList,
+                labelText: 'Marital Status',
+                isValidate: true,
+                selectedValue: controller.selectedMaritalStatus.value,
+                onSelected: (value) {
+                  controller.selectedMaritalStatus.value = value!;
+                },
+              ),
+
             ],
           ),
         ),

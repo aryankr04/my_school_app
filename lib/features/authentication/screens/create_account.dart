@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:my_school_app/features/add_user/screens/add_director.dart';
-import 'package:my_school_app/features/add_user/screens/add_driver.dart';
-import 'package:my_school_app/features/add_user/screens/add_management.dart';
-import 'package:my_school_app/features/add_user/screens/add_principal.dart';
-import 'package:my_school_app/features/add_user/screens/add_staff.dart';
 import 'package:my_school_app/features/add_user/screens/student/student0.dart';
 import 'package:my_school_app/features/user/admin/admin_main_page.dart';
 
 import 'package:my_school_app/utils/constants/dynamic_colors.dart';
 import 'package:my_school_app/utils/constants/sizes.dart';
-import '../../add_user/screens/student/teacher/teacher0.dart';
+import '../../add_user/screens/school_staff/school_staff0.dart';
 import '../controllers/create_account_controller.dart';
 
 class CreateAccount extends StatelessWidget {
@@ -33,7 +28,6 @@ class CreateAccount extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-
               ButtonGroup(),
             ],
           ),
@@ -57,12 +51,14 @@ class ButtonGroup extends StatelessWidget {
             UserTypeButton(
               assetPath: 'assets/images/role_icon/student.svg',
               label: 'Student',
-              destinationPage: AddStudent(), // Replace with your actual page widget
+              destinationPage:
+                  AddStudent(), // Replace with your actual page widget
             ),
             UserTypeButton(
               assetPath: 'assets/images/role_icon/teacher.svg',
               label: 'Teacher',
-              destinationPage: AddTeacher(), // Replace with your actual page widget
+              destinationPage:
+                  AddSchoolStaff(), // Replace with your actual page widget
             ),
           ],
         ),
@@ -73,12 +69,14 @@ class ButtonGroup extends StatelessWidget {
             UserTypeButton(
               assetPath: 'assets/images/role_icon/principal.svg',
               label: 'Principal',
-              destinationPage: AddPrincipal(), // Replace with your actual page widget
+              destinationPage:
+                  AddSchoolStaff(), // Replace with your actual page widget
             ),
             UserTypeButton(
               assetPath: 'assets/images/role_icon/director.svg',
               label: 'Director',
-              destinationPage: AddDirector(), // Replace with your actual page widget
+              destinationPage:
+                  AddSchoolStaff(), // Replace with your actual page widget
             ),
           ],
         ),
@@ -89,12 +87,14 @@ class ButtonGroup extends StatelessWidget {
             UserTypeButton(
               assetPath: 'assets/images/role_icon/management.svg',
               label: 'Management',
-              destinationPage: AddManagement(), // Replace with your actual page widget
+              destinationPage:
+                  AddSchoolStaff(), // Replace with your actual page widget
             ),
             UserTypeButton(
               assetPath: 'assets/images/role_icon/staff.svg',
               label: 'Staff',
-              destinationPage: AddStaff(), // Replace with your actual page widget
+              destinationPage:
+                  AddSchoolStaff(), // Replace with your actual page widget
             ),
           ],
         ),
@@ -105,16 +105,17 @@ class ButtonGroup extends StatelessWidget {
             UserTypeButton(
               assetPath: 'assets/images/role_icon/driver.svg',
               label: 'Driver',
-              destinationPage: AddDriver(), // Replace with your actual page widget
+              destinationPage:
+                  AddSchoolStaff(), // Replace with your actual page widget
             ),
             UserTypeButton(
               assetPath: 'assets/images/role_icon/admin.svg',
               label: 'Admin',
-              destinationPage: AdminHome(), // Replace with your actual page widget
+              destinationPage:
+                  AdminHome(), // Replace with your actual page widget
             ),
           ],
         ),
-
       ],
     );
   }
@@ -137,7 +138,9 @@ class UserTypeButton extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => destinationPage), // Navigate to destinationPage
+          MaterialPageRoute(
+              builder: (context) =>
+                  destinationPage), // Navigate to destinationPage
         );
       },
       child: Column(
@@ -165,9 +168,9 @@ class UserTypeButton extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              // color: SchoolDynamicColors.activeBlue,
-            ),
+                  fontWeight: FontWeight.w600,
+                  // color: SchoolDynamicColors.activeBlue,
+                ),
           ),
         ],
       ),

@@ -13,7 +13,6 @@ class StudentStep2FormController extends GetxController {
   Rx<String> selectedSection = Rx<String>('');
   TextEditingController rollNoController = TextEditingController();
   Rx<String> selectedHouseOrTeam = Rx<String>('');
-  RxString isTransportRequired = RxString('');
   RxString selectedVehicleNo = RxString('');
   RxString selectedModeOfTransport = RxString('');
 

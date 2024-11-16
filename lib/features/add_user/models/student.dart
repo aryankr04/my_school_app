@@ -36,7 +36,6 @@ class Student {
   final String district;
   final String city;
   final String pincode;
-  final bool isTransportRequired;
   final String modeOfTransportation;
   final String vehicleNo;
   final String houseOrTeam;
@@ -105,7 +104,6 @@ class Student {
     required this.district,
     required this.city,
     required this.pincode,
-    required this.isTransportRequired,
     required this.modeOfTransportation,
     required this.vehicleNo,
     required this.houseOrTeam,
@@ -176,7 +174,6 @@ class Student {
       district: json['district'],
       city: json['city'],
       pincode: json['pincode'],
-      isTransportRequired: json['isTransportRequired'],
       modeOfTransportation: json['modeOfTransportation'],
       vehicleNo: json['vehicleNo'],
       houseOrTeam: json['houseOrTeam'],
@@ -248,7 +245,6 @@ class Student {
       'district': district,
       'city': city,
       'pincode': pincode,
-      'isTransportRequired': isTransportRequired,
       'modeOfTransportation': modeOfTransportation,
       'vehicleNo': vehicleNo,
       'houseOrTeam': houseOrTeam,

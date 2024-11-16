@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:my_school_app/utils/helpers/helper_functions.dart';
 
 import '../../../../../../data/services/firebase_for_school.dart';
+import '../../../../common/widgets/multi_selection_widget.dart';
 import '../../../../utils/constants/dynamic_colors.dart';
 import '../../../../utils/constants/lists.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -14,6 +15,7 @@ class StudentStep1FormController extends GetxController {
   FirebaseForSchool firebaseFunction = FirebaseForSchool();
 
   final GlobalKey<FormState> step1FormKey = GlobalKey<FormState>();
+
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
