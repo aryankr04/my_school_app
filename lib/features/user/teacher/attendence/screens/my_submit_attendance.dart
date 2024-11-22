@@ -55,11 +55,7 @@ class _MySubmitAttendanceState extends State<MySubmitAttendance> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Obx(() {
-        if (_controller.schoolClass == null) {
-          return const Center(
-            child: Text('No class data available.'),
-          );
-        }
+
         return SingleChildScrollView(
           padding: const EdgeInsets.all(SchoolSizes.lg),
           child: Column(

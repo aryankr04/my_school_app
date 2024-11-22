@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../utils/constants/colors.dart';
 import '../../utils/constants/dynamic_colors.dart';
 import '../../utils/constants/sizes.dart';
 
@@ -59,7 +60,8 @@ class _SchoolDropdownFormFieldState extends State<SchoolDropdownFormField> {
             alignment: Alignment.centerLeft,
             hint: Text(
               widget.hintText ?? 'Select ${widget.labelText}', // Provide a hint text
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: SchoolColors.placeholderColor),
+
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),

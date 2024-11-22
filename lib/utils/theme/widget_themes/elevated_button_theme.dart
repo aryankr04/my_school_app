@@ -19,11 +19,11 @@ class SchoolElevatedButtonTheme {
       side: BorderSide.none,
       padding: const EdgeInsets.symmetric(vertical: SchoolSizes.md,),
       textStyle: TextStyle(
-          fontSize: 18,
+          fontSize: 16,
           color: SchoolColors.whiteTextColor,
           fontWeight: FontWeight.w500),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusXlg)),
+          borderRadius: BorderRadius.circular(SchoolSizes.buttonRadius)),
     ),
   );
 
@@ -39,11 +39,11 @@ class SchoolElevatedButtonTheme {
       side: BorderSide.none,
       padding: const EdgeInsets.symmetric(vertical: SchoolSizes.md),
       textStyle: TextStyle(
-          fontSize: 18,
+          fontSize: 16,
           color: SchoolColors.whiteTextColor,
           fontWeight: FontWeight.w500),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusXlg)),
+          borderRadius: BorderRadius.circular(SchoolSizes.buttonRadius)),
     ),
   );
 }

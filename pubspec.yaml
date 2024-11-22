@@ -60,6 +60,7 @@ dependencies:
   sms_autofill: ^2.4.0
   timer_count_down: ^2.2.2
   firebase_app_check: ^0.2.2+7
+  fl_chart: ^0.69.0
 
   #--------------- ./ PACKAGES END ------------------#
 

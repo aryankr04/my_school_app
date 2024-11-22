@@ -53,9 +53,10 @@ class _SingleSelectionWidgetState extends State<SingleSelectionWidget> {
               _onItemTapped(option);
             },
             child: Container(
-              constraints: BoxConstraints(minWidth: 48),
+              constraints: BoxConstraints(minWidth: 36),
               padding: EdgeInsets.symmetric(
-                  vertical: SchoolSizes.sm, horizontal: SchoolSizes.md),
+                  vertical: SchoolSizes.sm, horizontal: SchoolSizes.sm
+              ),
               decoration: BoxDecoration(
                 color: isSelected
                     ? SchoolDynamicColors.primaryColor
@@ -74,7 +75,7 @@ class _SingleSelectionWidgetState extends State<SingleSelectionWidget> {
                   Text(
                     option,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: isSelected
                           ? SchoolDynamicColors.white
                           : SchoolDynamicColors.subtitleTextColor,

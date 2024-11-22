@@ -29,7 +29,7 @@ class SchoolOutlinedButtonTheme {
       foregroundColor: SchoolColors.lightBackgroundColor,
       side:  BorderSide(color: SchoolColors.borderColor),
       textStyle: TextStyle(fontSize: 16, color: SchoolColors.whiteTextColor, fontWeight: FontWeight.w600),
-      padding: const EdgeInsets.symmetric(vertical: SchoolSizes.md, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: SchoolSizes.md,),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(SchoolSizes.buttonRadius)),
     ),
   );

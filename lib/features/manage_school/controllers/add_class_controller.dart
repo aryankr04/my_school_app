@@ -350,7 +350,8 @@ class AddClassController extends GetxController {
                             section: '', // Default section
                             days: {}, // Empty map for days
                           ),
-                          attendanceByDate: {}
+                          attendanceByDate: {},
+                          holidays: []
                         )
                         );
                       } else {

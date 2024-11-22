@@ -1,36 +1,49 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:my_school_app/utils/constants/dynamic_colors.dart';
-import 'package:my_school_app/utils/constants/sizes.dart';
 
+import '../../../../../utils/constants/dynamic_colors.dart';
+import '../../../../../utils/constants/sizes.dart';
 import '../attendence.dart';
 
 class MyAttendanceCalendar extends StatelessWidget {
   final RxList<StudentAttendance0> studentAttendanceList; // Reactive attendance list
+  final Function(DateTime) onMonthChanged; // Callback to notify parent about month change
 
-  MyAttendanceCalendar({required this.studentAttendanceList, Key? key})
-      : super(key: key);
+  MyAttendanceCalendar({
+    required this.studentAttendanceList,
+    required this.onMonthChanged, // Receive the callback
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       // Create a map of attendance records from the RxList
-      Map<String, bool> attendanceRecords = {
+      Map<String, String?> attendanceRecords = {
         for (var attendance in studentAttendanceList)
-          attendance.date: attendance.status == "Present",
+          attendance.date: attendance.status,
       };
 
-      return _AttendanceCalendarWidget(attendanceRecords: attendanceRecords);
+      return _AttendanceCalendarWidget(
+        attendanceRecords: attendanceRecords,
+        onMonthChanged: onMonthChanged, // Pass the callback down
+      );
     });
   }
 }
 
 class _AttendanceCalendarWidget extends StatefulWidget {
-  final Map<String, bool> attendanceRecords; // Date ('YYYY-MM-DD') -> Present (true/false)
+  final Map<String, String?> attendanceRecords; // Date ('YYYY-MM-DD') -> Present/Absent/Holiday
+  final Function(DateTime) onMonthChanged; // Callback to notify the parent
 
-  _AttendanceCalendarWidget({required this.attendanceRecords, Key? key})
-      : super(key: key);
+  _AttendanceCalendarWidget({
+    required this.attendanceRecords,
+    required this.onMonthChanged, // Receive the callback
+    Key? key,
+  }) : super(key: key);
 
   @override
   _AttendanceCalendarWidgetState createState() =>
@@ -38,7 +51,13 @@ class _AttendanceCalendarWidget extends StatefulWidget {
 }
 
 class _AttendanceCalendarWidgetState extends State<_AttendanceCalendarWidget> {
-  DateTime _currentMonth = DateTime.now();
+  late DateTime _currentMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentMonth = DateTime.now(); // Start with the current month
+  }
 
   void _changeMonth(int increment) {
     setState(() {
@@ -47,6 +66,7 @@ class _AttendanceCalendarWidgetState extends State<_AttendanceCalendarWidget> {
         _currentMonth.month + increment,
         1,
       );
+      widget.onMonthChanged(_currentMonth); // Notify the parent with the new month
     });
   }
 
@@ -62,7 +82,7 @@ class _AttendanceCalendarWidgetState extends State<_AttendanceCalendarWidget> {
     final int daysInMonth = lastDayOfMonth.day;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -79,6 +99,7 @@ class _AttendanceCalendarWidgetState extends State<_AttendanceCalendarWidget> {
       child: Column(
         children: [
           // Header with navigation buttons
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -88,7 +109,7 @@ class _AttendanceCalendarWidgetState extends State<_AttendanceCalendarWidget> {
               ),
               Text(
                 DateFormat.yMMMM().format(_currentMonth),
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               IconButton(
                 icon: const Icon(Icons.arrow_forward),
@@ -133,24 +154,20 @@ class _AttendanceCalendarWidgetState extends State<_AttendanceCalendarWidget> {
                   "$yearMonth-${day.toString().padLeft(2, '0')}";
 
               // Check attendance status
-              bool? isPresent = widget.attendanceRecords[dateKey];
+              String? status = widget.attendanceRecords[dateKey];
 
               return Container(
                 margin: const EdgeInsets.all(7),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isPresent == true
-                      ? SchoolDynamicColors.activeGreen // Present
-                      : isPresent == false
-                      ? SchoolDynamicColors.activeRed // Absent
-                      : Colors.transparent, // No data
+                  color: _getStatusColor(status),
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   "$day",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontSize: 13,
-                    color: isPresent == null
+                    color: status == null
                         ? SchoolDynamicColors.subtitleTextColor
                         : Colors.white,
                   ),
@@ -161,5 +178,19 @@ class _AttendanceCalendarWidgetState extends State<_AttendanceCalendarWidget> {
         ],
       ),
     );
+  }
+
+  // Method to get color based on status
+  Color _getStatusColor(String? status) {
+    switch (status) {
+      case 'Present':
+        return SchoolDynamicColors.activeGreen; // Present
+      case 'Absent':
+        return SchoolDynamicColors.activeRed; // Absent
+      case 'Holiday':
+        return Colors.orange; // Holiday
+      default:
+        return Colors.transparent; // No data
+    }
   }
 }

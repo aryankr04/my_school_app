@@ -67,6 +67,7 @@ class SubmitAttendanceController extends GetxController {
         print('Error: schoolClass is null');
         return;
       }
+      print('Error: not null');
 
       studentAttendanceList.clear();
       String today = DateFormat('yyyy-MM-dd').format(DateTime.now());

@@ -48,6 +48,6 @@ class SchoolApp extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme,
-        home: MySubmitAttendance());
+        home: Attendance());
   }
 }

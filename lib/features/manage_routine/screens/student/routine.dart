@@ -298,7 +298,6 @@ class _MyRoutineState extends State<MyRoutine> {
               ),
             ),
             // const SizedBox(height: SchoolSizes.md),
-            TextButton(onPressed: (){sendRoutineToFirebase('SCH0000000001', '4', 'A');}, child: Text('Send')),
             Padding(
               padding: const EdgeInsets.all(SchoolSizes.lg),
               child: Obx(

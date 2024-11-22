@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_school_app/utils/constants/colors.dart';
 import 'package:my_school_app/utils/constants/dynamic_colors.dart';
 import 'package:my_school_app/utils/constants/sizes.dart';
 
@@ -38,7 +39,6 @@ class SchoolTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,9 +59,12 @@ class SchoolTextFormField extends StatelessWidget {
           readOnly: readOnly ?? false,
           decoration: decoration ??
               InputDecoration(
-                hintText: hintText ??
-                    'Enter ${labelText}', // Provide a hint text
-                hintStyle: Theme.of(context).textTheme.bodySmall,
+                hintText:
+                    hintText ?? 'Enter ${labelText}', // Provide a hint text
+                hintStyle: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: SchoolColors.placeholderColor),
                 filled: true,
                 fillColor: SchoolDynamicColors.backgroundColorTintLightGrey,
                 prefixText: prefixText,

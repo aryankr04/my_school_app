@@ -130,24 +130,9 @@ class _StudentHomeState extends State<StudentHome> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          attendanceCardWithIndicator(
-                            name: 'Total Presents',
-                            value: 22,
-                            percentage: 73.6,
-                            color: SchoolDynamicColors.activeGreen,
-                          ),
-                          attendanceCardWithIndicator(
-                            name: 'Total Absents',
-                            value: 4,
-                            percentage: 15.4,
-                            color: SchoolDynamicColors.activeRed,
-                          ),
-                          attendanceCardWithIndicator(
-                            name: 'Total Working',
-                            value: 26,
-                            percentage: 100,
-                            color: SchoolDynamicColors.activeBlue,
-                          )
+                          attendanceCardWithIndicator(name: 'Present', value: 17, total: 22, color: SchoolDynamicColors.activeGreen),
+                          attendanceCardWithIndicator(name: 'Absent', value: 5, total: 22, color: SchoolDynamicColors.activeRed),
+                          attendanceCardWithIndicator(name: 'Holidays', value: 4, total: 30, color: SchoolDynamicColors.activeOrange),
                         ],
                       ),
                       const SizedBox(
@@ -183,69 +168,69 @@ class _StudentHomeState extends State<StudentHome> {
     );
   }
 
-  Widget attendanceCardWithIndicator({
-    required String name,
-    required int value,
-    required double percentage,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-          vertical: SchoolSizes.md, horizontal: SchoolSizes.md - 5),
-      decoration: BoxDecoration(
-        color: color.withOpacity(
-            0.1), // Use color with some transparency for background
-        borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusMd),
-      ),
-      child: Column(
-        children: [
-          CircularPercentIndicator(
-            radius: 30,
-            animateFromLastPercent: true,
-            progressColor: color,
-            backgroundColor: color.withOpacity(0.1),
-            animation: true,
-            animationDuration: 1000,
-            circularStrokeCap: CircularStrokeCap.round,
-            lineWidth: 4,
-            percent: percentage / 100,
-            center: CircleAvatar(
-              radius: 25,
-              backgroundColor: Colors.white,
-              child: Text(
-                '${percentage.toStringAsFixed(1)}%',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black, // Use a contrasting color
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: SchoolSizes.sm,
-          ),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: SchoolColors.subtitleTextColor,
-            ),
-          ),
-          Text(
-            '$value Days',
-            style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w600,
-                color: SchoolColors
-                    .headlineTextColor, // Text color for the main value
-                height: 0),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget attendanceCardWithIndicator({
+  //   required String name,
+  //   required int value,
+  //   required double percentage,
+  //   required Color color,
+  // }) {
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(
+  //         vertical: SchoolSizes.md, horizontal: SchoolSizes.md - 5),
+  //     decoration: BoxDecoration(
+  //       color: color.withOpacity(
+  //           0.1), // Use color with some transparency for background
+  //       borderRadius: BorderRadius.circular(SchoolSizes.cardRadiusMd),
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         CircularPercentIndicator(
+  //           radius: 30,
+  //           animateFromLastPercent: true,
+  //           progressColor: color,
+  //           backgroundColor: color.withOpacity(0.1),
+  //           animation: true,
+  //           animationDuration: 1000,
+  //           circularStrokeCap: CircularStrokeCap.round,
+  //           lineWidth: 4,
+  //           percent: percentage / 100,
+  //           center: CircleAvatar(
+  //             radius: 25,
+  //             backgroundColor: Colors.white,
+  //             child: Text(
+  //               '${percentage.toStringAsFixed(1)}%',
+  //               style: const TextStyle(
+  //                 fontSize: 14,
+  //                 fontWeight: FontWeight.w600,
+  //                 color: Colors.black, // Use a contrasting color
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: SchoolSizes.sm,
+  //         ),
+  //         Text(
+  //           name,
+  //           style: const TextStyle(
+  //             fontSize: 13,
+  //             fontWeight: FontWeight.w500,
+  //             color: SchoolColors.subtitleTextColor,
+  //           ),
+  //         ),
+  //         Text(
+  //           '$value Days',
+  //           style: const TextStyle(
+  //               fontSize: 17,
+  //               fontWeight: FontWeight.w600,
+  //               color: SchoolColors
+  //                   .headlineTextColor, // Text color for the main value
+  //               height: 0),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Future<dynamic> getGreeting() async {
     var hour = DateTime.now().hour;

@@ -17,6 +17,7 @@ class SchoolClass {
   List<StudentIdName> students; // List of student IDs in the class
   Routine? routine; // Routine for the class
   Map<String, AttendanceByDate> attendanceByDate; // Attendance by date
+  List<Holiday> holidays; // List of holidays for the class
 
   SchoolClass({
     required this.id,
@@ -31,6 +32,7 @@ class SchoolClass {
     required this.students,
     this.routine,
     required this.attendanceByDate, // Initialize attendanceByDate
+    required this.holidays, // Initialize holidays
   });
 
   // Factory method to create an instance from a JSON map
@@ -53,10 +55,12 @@ class SchoolClass {
       routine: json['routine'] != null
           ? Routine.fromMap(json['routine'], json['id'])
           : null,
-      attendanceByDate: (json['attendanceByDate'] as Map<String, dynamic>?)
+      attendanceByDate: (json['attendanceByDate'] as Map<String, dynamic>? )
           ?.map((key, value) =>
-          MapEntry(key, AttendanceByDate.fromJson(value))) ??
-          {}, // Parse attendanceByDate
+          MapEntry(key, AttendanceByDate.fromJson(value))) ?? {},
+      holidays: (json['holidays'] as List<dynamic>?)
+          ?.map((holidayJson) => Holiday.fromJson(holidayJson))
+          .toList() ?? [],
     );
   }
 
@@ -75,6 +79,42 @@ class SchoolClass {
       'students': students.map((student) => student.toJson()).toList(),
       'routine': routine?.toMap(),
       'attendanceByDate': attendanceByDate.map((key, value) => MapEntry(key, value.toJson())),
+      'holidays': holidays.map((holiday) => holiday.toJson()).toList(),
+    };
+  }
+}
+
+class Holiday {
+  String startDate; // Start date of the holiday (in String format)
+  String endDate; // End date of the holiday (in String format)
+  String reason; // Reason for the holiday (e.g., National Holiday)
+
+  Holiday({
+    required this.startDate,
+    required this.endDate,
+    required this.reason,
+  });
+
+  // Factory method to create an instance from a JSON map
+  factory Holiday.fromJson(Map<String, dynamic> json) {
+    // Convert the timestamp to String and keep it
+    return Holiday(
+      startDate: (json['startDate']), // Convert DateTime to String (yyyy-MM-dd)
+      endDate: (json['endDate'] ), // Convert DateTime to String (yyyy-MM-dd)
+      reason: json['reason'],
+    );
+  }
+
+  // Method to convert the object to a JSON map
+  Map<String, dynamic> toJson() {
+    // Convert the startDate and endDate back to Timestamp from String
+    DateTime start = DateTime.parse(startDate); // Convert String to DateTime
+    DateTime end = DateTime.parse(endDate); // Convert String to DateTime
+
+    return {
+      'startDate': Timestamp.fromDate(start), // Convert back to Timestamp
+      'endDate': Timestamp.fromDate(end), // Convert back to Timestamp
+      'reason': reason,
     };
   }
 }
